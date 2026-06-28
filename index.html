@@ -56,6 +56,12 @@
             margin-bottom: 2rem;
         }
         
+        fieldset.section {
+            border: none;
+            margin: 0 0 2rem 0;
+            padding: 0;
+        }
+        
         .section-label {
             font-size: 12px;
             font-weight: 600;
@@ -63,6 +69,11 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin: 0 0 0.75rem 0;
+        }
+        
+        fieldset.section legend.section-label {
+            display: block;
+            width: 100%;
         }
         
         .button-group {
@@ -97,6 +108,11 @@
             border-color: #8B0000;
         }
         
+        .toggle-btn:focus {
+            outline: 3px solid #8B0000;
+            outline-offset: 2px;
+        }
+        
         .question-box {
             background: #f9f9f9;
             border: 1px solid #ddd;
@@ -121,6 +137,64 @@
             margin: 0;
         }
         
+        .ai-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .btn-ai {
+            padding: 12px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .btn-ai:focus {
+            outline: 3px solid white;
+            outline-offset: 2px;
+        }
+        
+        .btn-chatgpt {
+            background: #000;
+        }
+        
+        .btn-chatgpt:hover {
+            background: #1a1a1a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .btn-gemini {
+            background: #8B5CF6;
+        }
+        
+        .btn-gemini:hover {
+            background: #7C3AED;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139,92,246,0.3);
+        }
+        
+        .btn-claude {
+            background: #8B0000;
+        }
+        
+        .btn-claude:hover {
+            background: #6B0000;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139,0,0,0.3);
+        }
+        
         .action-buttons {
             display: flex;
             gap: 8px;
@@ -138,15 +212,6 @@
             border: none;
         }
         
-        .btn-primary {
-            background: #8B0000;
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background: #6B0000;
-        }
-        
         .btn-secondary {
             background: transparent;
             border: 0.5px solid #ccc;
@@ -157,6 +222,11 @@
             border-color: #8B0000;
             color: #8B0000;
             background: #fafafa;
+        }
+        
+        .btn-secondary:focus {
+            outline: 3px solid #8B0000;
+            outline-offset: 2px;
         }
         
         .tip {
@@ -173,28 +243,6 @@
             display: block;
             margin-bottom: 0.5rem;
         }
-        
-        .footer {
-            background: #f9f9f9;
-            padding: 1.5rem 2rem;
-            text-align: center;
-            border-top: 1px solid #eee;
-        }
-        
-        .footer a {
-            color: #8B0000;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 14px;
-        }
-        
-        .footer a:hover {
-            text-decoration: underline;
-        }
-        
-        .footer i {
-            margin-right: 6px;
-        }
     </style>
 </head>
 <body>
@@ -203,57 +251,64 @@
     
     <!-- Header -->
     <div class="header">
-        <h1><i class="fas fa-lightbulb"></i> Question Launcher</h1>
-        <p>S596 IT Strategy | Explore strategic questions through multiple lenses</p>
+        <h1><i class="fas fa-lightbulb" aria-hidden="true"></i> Assessing IT Systems as Cost or Value?</h1>
+        <p>Try several scenarios with various AI using the prompt generated question</p>
     </div>
     
     <!-- Content -->
     <div class="content">
         
         <!-- Framing Lens -->
-        <div class="section">
-            <div class="section-label">Framing Lens</div>
-            <div class="button-group" id="framing-group">
-                <button class="toggle-btn active" data-type="framing" data-value="cost-vs-competitive">Cost center vs. competitive weapon</button>
-                <button class="toggle-btn" data-type="framing" data-value="short-vs-long">Short-run vs. long-run advantage</button>
-                <button class="toggle-btn" data-type="framing" data-value="asset-vs-capability">Asset or capability?</button>
-                <button class="toggle-btn" data-type="framing" data-value="productivity-paradox">The IT productivity paradox</button>
+        <fieldset class="section">
+            <legend class="section-label">Framing Lens</legend>
+            <div class="button-group" id="framing-group" role="group" aria-labelledby="framing-legend">
+                <button class="toggle-btn active" data-type="framing" data-value="cost-vs-competitive" aria-label="Cost center vs. competitive weapon framing" aria-pressed="true">Cost center vs. competitive weapon</button>
+                <button class="toggle-btn" data-type="framing" data-value="short-vs-long" aria-label="Short-run vs. long-run advantage framing" aria-pressed="false">Short-run vs. long-run advantage</button>
+                <button class="toggle-btn" data-type="framing" data-value="asset-vs-capability" aria-label="Asset or capability framing" aria-pressed="false">Asset or capability?</button>
+                <button class="toggle-btn" data-type="framing" data-value="productivity-paradox" aria-label="The IT productivity paradox framing" aria-pressed="false">The IT productivity paradox</button>
             </div>
-        </div>
+        </fieldset>
         
         <!-- Industry Context -->
-        <div class="section">
-            <div class="section-label">Industry Context</div>
-            <div class="button-group" id="industry-group">
-                <button class="toggle-btn active" data-type="industry" data-value="general">General / cross-industry</button>
-                <button class="toggle-btn" data-type="industry" data-value="financial">Financial services</button>
-                <button class="toggle-btn" data-type="industry" data-value="retail">Retail / e-commerce</button>
-                <button class="toggle-btn" data-type="industry" data-value="manufacturing">Manufacturing / industrial</button>
-                <button class="toggle-btn" data-type="industry" data-value="healthcare">Healthcare</button>
+        <fieldset class="section">
+            <legend class="section-label">Industry Context</legend>
+            <div class="button-group" id="industry-group" role="group" aria-labelledby="industry-legend">
+                <button class="toggle-btn active" data-type="industry" data-value="general" aria-label="General or cross-industry context" aria-pressed="true">General / cross-industry</button>
+                <button class="toggle-btn" data-type="industry" data-value="financial" aria-label="Financial services industry context" aria-pressed="false">Financial services</button>
+                <button class="toggle-btn" data-type="industry" data-value="retail" aria-label="Retail or e-commerce industry context" aria-pressed="false">Retail / e-commerce</button>
+                <button class="toggle-btn" data-type="industry" data-value="manufacturing" aria-label="Manufacturing or industrial industry context" aria-pressed="false">Manufacturing / industrial</button>
+                <button class="toggle-btn" data-type="industry" data-value="healthcare" aria-label="Healthcare industry context" aria-pressed="false">Healthcare</button>
             </div>
-        </div>
+        </fieldset>
         
         <!-- Provocateur Dial -->
-        <div class="section">
-            <div class="section-label">Provocateur Dial</div>
-            <div class="button-group" id="provocateur-group">
-                <button class="toggle-btn" data-type="provocateur" data-value="skeptic">Play the skeptic</button>
-                <button class="toggle-btn active" data-type="provocateur" data-value="balanced">Balanced tension</button>
-                <button class="toggle-btn" data-type="provocateur" data-value="optimist">Play the optimist</button>
-                <button class="toggle-btn" data-type="provocateur" data-value="academic">Academic / evidence-based</button>
+        <fieldset class="section">
+            <legend class="section-label">Provocateur Dial</legend>
+            <div class="button-group" id="provocateur-group" role="group" aria-labelledby="provocateur-legend">
+                <button class="toggle-btn" data-type="provocateur" data-value="skeptic" aria-label="Play the skeptic perspective" aria-pressed="false">Play the skeptic</button>
+                <button class="toggle-btn active" data-type="provocateur" data-value="balanced" aria-label="Balanced tension perspective" aria-pressed="true">Balanced tension</button>
+                <button class="toggle-btn" data-type="provocateur" data-value="optimist" aria-label="Play the optimist perspective" aria-pressed="false">Play the optimist</button>
+                <button class="toggle-btn" data-type="provocateur" data-value="academic" aria-label="Academic or evidence-based perspective" aria-pressed="false">Academic / evidence-based</button>
             </div>
-        </div>
+        </fieldset>
         
         <!-- Generated Question -->
-        <div class="question-box">
+        <div class="question-box" role="region" aria-live="polite" aria-label="Generated question">
             <div class="question-label">Generated Question</div>
             <p class="question-text" id="generated-question">To what extent should organizations treat IT investment as a cost to be minimized versus a strategic asset to be cultivated? Under what conditions does one framing lead to better long-run outcomes—and for whom?</p>
         </div>
         
+        <!-- AI Platform Buttons -->
+        <div class="ai-buttons" role="group" aria-label="AI platforms to explore this question">
+            <button class="btn-ai btn-chatgpt" onclick="openAI('chatgpt')" aria-label="Open ChatGPT to explore this question"><i class="fab fa-openai" aria-hidden="true"></i> ChatGPT</button>
+            <button class="btn-ai btn-gemini" onclick="openAI('gemini')" aria-label="Open Gemini to explore this question"><i class="fas fa-sparkles" aria-hidden="true"></i> Gemini</button>
+            <button class="btn-ai btn-claude" onclick="openAI('claude')" aria-label="Open Claude to explore this question"><i class="fas fa-brain" aria-hidden="true"></i> Claude</button>
+        </div>
+        
         <!-- Action Buttons -->
-        <div class="action-buttons">
-            <button class="btn-secondary" onclick="copyQuestion()"><i class="fas fa-copy"></i> Copy</button>
-            <button class="btn-secondary" onclick="surpriseMe()"><i class="fas fa-dice"></i> Surprise me</button>
+        <div class="action-buttons" role="group" aria-label="Question actions">
+            <button class="btn-secondary" onclick="copyQuestion()" aria-label="Copy the current question to clipboard"><i class="fas fa-copy" aria-hidden="true"></i> Copy</button>
+            <button class="btn-secondary" onclick="surpriseMe()" aria-label="Generate a random question with different settings"><i class="fas fa-dice" aria-hidden="true"></i> Surprise me</button>
         </div>
         
         <!-- Tip -->
@@ -262,16 +317,11 @@
         </div>
         
     </div>
-    
-    <!-- Footer -->
-    <div class="footer">
-        <a href="#" onclick="goBackToCanvas(); return false;"><i class="fas fa-arrow-left"></i> Back to Canvas</a>
-    </div>
 
 </div>
 
 <script>
-// Question templates (80+ variations across 4 framings × 5 industries × 4 provocateur stances)
+// Question templates (80+ variations)
 const questionTemplates = {
     'cost-vs-competitive': {
         'general': {
@@ -414,29 +464,81 @@ function updateQuestion() {
     document.getElementById('generated-question').textContent = template;
 }
 
-// Button event listeners
 document.querySelectorAll('.toggle-btn').forEach(btn => {
     btn.addEventListener('click', function() {
         const type = this.dataset.type;
         const value = this.dataset.value;
         
-        // Remove active from siblings
-        document.querySelectorAll(`.toggle-btn[data-type="${type}"]`).forEach(b => b.classList.remove('active'));
-        // Add active to clicked
+        document.querySelectorAll(`.toggle-btn[data-type="${type}"]`).forEach(b => {
+            b.classList.remove('active');
+            b.setAttribute('aria-pressed', 'false');
+        });
         this.classList.add('active');
+        this.setAttribute('aria-pressed', 'true');
         
-        // Update state
         currentState[type] = value;
         updateQuestion();
     });
 });
+
+function openAI(platform) {
+    const question = document.getElementById('generated-question').textContent;
+    
+    navigator.clipboard.writeText(question).then(() => {
+        let url, platformName;
+        
+        switch(platform) {
+            case 'chatgpt':
+                url = 'https://chat.openai.com';
+                platformName = 'ChatGPT';
+                break;
+            case 'gemini':
+                url = 'https://gemini.google.com';
+                platformName = 'Gemini';
+                break;
+            case 'claude':
+                url = 'https://claude.ai';
+                platformName = 'Claude';
+                break;
+        }
+        
+        window.open(url, '_blank', 'width=900,height=800');
+        alert(`✓ Question copied to clipboard!\n\nPaste it into ${platformName} to explore.`);
+    }).catch(err => {
+        const textarea = document.createElement('textarea');
+        textarea.value = question;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        
+        let url, platformName;
+        
+        switch(platform) {
+            case 'chatgpt':
+                url = 'https://chat.openai.com';
+                platformName = 'ChatGPT';
+                break;
+            case 'gemini':
+                url = 'https://gemini.google.com';
+                platformName = 'Gemini';
+                break;
+            case 'claude':
+                url = 'https://claude.ai';
+                platformName = 'Claude';
+                break;
+        }
+        
+        window.open(url, '_blank', 'width=900,height=800');
+        alert(`✓ Question copied to clipboard!\n\nPaste it into ${platformName} to explore.`);
+    });
+}
 
 function copyQuestion() {
     const question = document.getElementById('generated-question').textContent;
     navigator.clipboard.writeText(question).then(() => {
         alert('✓ Question copied to clipboard!\n\nPaste it into Claude, Gemini, or another AI system to explore.');
     }).catch(err => {
-        // Fallback for older browsers
         const textarea = document.createElement('textarea');
         textarea.value = question;
         document.body.appendChild(textarea);
@@ -456,40 +558,45 @@ function surpriseMe() {
     const newIndustry = industryOptions[Math.floor(Math.random() * industryOptions.length)];
     const newProvocateur = provocateurOptions[Math.floor(Math.random() * provocateurOptions.length)];
     
-    // Update button states
-    document.querySelectorAll(`.toggle-btn[data-value="${newFraming}"]`).forEach(b => b.classList.add('active'));
+    document.querySelectorAll(`.toggle-btn[data-value="${newFraming}"]`).forEach(b => {
+        b.classList.add('active');
+        b.setAttribute('aria-pressed', 'true');
+    });
     document.querySelectorAll(`.toggle-btn[data-type="framing"]`).forEach(b => {
-        if (b.dataset.value !== newFraming) b.classList.remove('active');
+        if (b.dataset.value !== newFraming) {
+            b.classList.remove('active');
+            b.setAttribute('aria-pressed', 'false');
+        }
     });
     
-    document.querySelectorAll(`.toggle-btn[data-value="${newIndustry}"]`).forEach(b => b.classList.add('active'));
+    document.querySelectorAll(`.toggle-btn[data-value="${newIndustry}"]`).forEach(b => {
+        b.classList.add('active');
+        b.setAttribute('aria-pressed', 'true');
+    });
     document.querySelectorAll(`.toggle-btn[data-type="industry"]`).forEach(b => {
-        if (b.dataset.value !== newIndustry) b.classList.remove('active');
+        if (b.dataset.value !== newIndustry) {
+            b.classList.remove('active');
+            b.setAttribute('aria-pressed', 'false');
+        }
     });
     
-    document.querySelectorAll(`.toggle-btn[data-value="${newProvocateur}"]`).forEach(b => b.classList.add('active'));
+    document.querySelectorAll(`.toggle-btn[data-value="${newProvocateur}"]`).forEach(b => {
+        b.classList.add('active');
+        b.setAttribute('aria-pressed', 'true');
+    });
     document.querySelectorAll(`.toggle-btn[data-type="provocateur"]`).forEach(b => {
-        if (b.dataset.value !== newProvocateur) b.classList.remove('active');
+        if (b.dataset.value !== newProvocateur) {
+            b.classList.remove('active');
+            b.setAttribute('aria-pressed', 'false');
+        }
     });
     
-    // Update state and question
     currentState = { framing: newFraming, industry: newIndustry, provocateur: newProvocateur };
     updateQuestion();
 }
 
-function goBackToCanvas() {
-    // If it was opened from Canvas, go back
-    if (document.referrer.includes('canvas')) {
-        window.history.back();
-    } else {
-        alert('This launcher is typically accessed from your Canvas course page. You can close this window and return to Canvas.');
-    }
-}
-
-// Initialize on load
 updateQuestion();
 </script>
 
 </body>
 </html>
-
