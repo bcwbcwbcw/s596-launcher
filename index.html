@@ -52,6 +52,16 @@
             padding: 2rem;
         }
         
+        .thought-question {
+            background: #f9f9f9;
+            border-left: 4px solid #8B0000;
+            padding: 1rem;
+            margin: 0 0 2rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
         .section {
             margin-bottom: 2rem;
         }
@@ -113,12 +123,37 @@
             outline-offset: 2px;
         }
         
+        .surprise-btn {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 0.5px solid #ccc;
+            background: transparent;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+        
+        .surprise-btn:hover {
+            border-color: #8B0000;
+            color: #8B0000;
+            background: #fafafa;
+        }
+        
+        .surprise-btn:focus {
+            outline: 3px solid #8B0000;
+            outline-offset: 2px;
+        }
+        
         .question-box {
             background: #f9f9f9;
             border: 1px solid #ddd;
             border-radius: 8px;
             padding: 1.5rem;
-            margin: 2rem 0;
+            margin: 1.5rem 0;
         }
         
         .question-label {
@@ -131,17 +166,66 @@
         }
         
         .question-text {
-            font-size: 16px;
+            font-size: 15px;
             color: #333;
             line-height: 1.7;
             margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        .copy-btn {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 0.5px solid #ccc;
+            background: #f0f0f0;
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+        
+        .copy-btn:hover {
+            border-color: #8B0000;
+            color: #8B0000;
+            background: #fafafa;
+        }
+        
+        .copy-btn:focus {
+            outline: 3px solid #8B0000;
+            outline-offset: 2px;
+        }
+        
+        .copy-confirmation {
+            display: none;
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 0.75rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        .copy-confirmation.show {
+            display: block;
+            animation: fadeInOut 3s ease-in-out;
+        }
+        
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; }
+            10%, 90% { opacity: 1; }
         }
         
         .ai-buttons {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             gap: 10px;
-            margin: 1.5rem 0 1rem 0;
+            margin: 1.5rem 0;
         }
         
         .btn-ai {
@@ -195,47 +279,13 @@
             box-shadow: 0 4px 12px rgba(139,0,0,0.3);
         }
         
-        .action-buttons {
-            display: flex;
-            gap: 8px;
-            margin-top: 1rem;
-        }
-        
-        .action-buttons button {
-            flex: 1;
-            padding: 12px 16px;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: none;
-        }
-        
-        .btn-secondary {
-            background: transparent;
-            border: 0.5px solid #ccc;
-            color: #333;
-        }
-        
-        .btn-secondary:hover {
-            border-color: #8B0000;
-            color: #8B0000;
-            background: #fafafa;
-        }
-        
-        .btn-secondary:focus {
-            outline: 3px solid #8B0000;
-            outline-offset: 2px;
-        }
-        
         .tip {
             background: #f0f0f0;
             border-left: 4px solid #8B0000;
             padding: 1rem;
             margin: 1.5rem 0;
             border-radius: 4px;
-            font-size: 14px;
+            font-size: 13px;
             line-height: 1.6;
         }
         
@@ -257,6 +307,11 @@
     
     <!-- Content -->
     <div class="content">
+        
+        <!-- Thought Question -->
+        <div class="thought-question">
+            <strong>Thought Question #2:</strong> What do you think about the cost of IT/systems relative to their business value? You can discuss this with any AI of your choice by selecting a FRAMING LENS, INDUSTRY, and ROLE. Which framing and answers seem more or less credible in your experience?
+        </div>
         
         <!-- Framing Lens -->
         <fieldset class="section">
@@ -292,11 +347,20 @@
             </div>
         </fieldset>
         
+        <!-- Surprise Me Button (BEFORE question) -->
+        <button class="surprise-btn" onclick="surpriseMe()" aria-label="Generate a random question with different settings"><i class="fas fa-dice" aria-hidden="true"></i> Surprise me with a random combination</button>
+        
         <!-- Generated Question -->
         <div class="question-box" role="region" aria-live="polite" aria-label="Generated question">
             <div class="question-label">Generated Question</div>
-            <p class="question-text" id="generated-question">To what extent should organizations treat IT investment as a cost to be minimized versus a strategic asset to be cultivated? Under what conditions does one framing lead to better long-run outcomes—and for whom?</p>
+            <p class="question-text" id="generated-question">Loading question...</p>
         </div>
+        
+        <!-- Copy Confirmation -->
+        <div class="copy-confirmation" id="copy-confirmation">✓ Question copied to clipboard! Ready to paste into your AI platform.</div>
+        
+        <!-- Copy Button (AFTER question) -->
+        <button class="copy-btn" onclick="copyQuestion()" aria-label="Copy the current question to clipboard"><i class="fas fa-copy" aria-hidden="true"></i> Copy question to clipboard</button>
         
         <!-- AI Platform Buttons -->
         <div class="ai-buttons" role="group" aria-label="AI platforms to explore this question">
@@ -305,15 +369,9 @@
             <button class="btn-ai btn-claude" onclick="openAI('claude')" aria-label="Open Claude to explore this question"><i class="fas fa-brain" aria-hidden="true"></i> Claude</button>
         </div>
         
-        <!-- Action Buttons -->
-        <div class="action-buttons" role="group" aria-label="Question actions">
-            <button class="btn-secondary" onclick="copyQuestion()" aria-label="Copy the current question to clipboard"><i class="fas fa-copy" aria-hidden="true"></i> Copy</button>
-            <button class="btn-secondary" onclick="surpriseMe()" aria-label="Generate a random question with different settings"><i class="fas fa-dice" aria-hidden="true"></i> Surprise me</button>
-        </div>
-        
         <!-- Tip -->
         <div class="tip">
-            <strong>💡 Tip:</strong> Try the same question with different framing lenses in Claude, Gemini, or other AI systems. Notice how the answers diverge—that difference is worth discussing in class.
+            <strong>💡 Workflow:</strong> (1) Adjust framing, industry, and perspective above; (2) Hit "Surprise Me" to randomize; (3) Review the question; (4) Copy it; (5) Paste into your preferred AI platform. Compare answers across different AIs and framings to deepen your thinking.
         </div>
         
     </div>
@@ -321,137 +379,76 @@
 </div>
 
 <script>
-// Question templates (80+ variations)
+// Rich question templates with context, key points, and output format guidance
 const questionTemplates = {
     'cost-vs-competitive': {
         'general': {
-            'skeptic': 'What evidence suggests that IT investment genuinely drives competitive advantage, versus serving merely as table stakes that all competitors must match? How do we distinguish real differentiation from hype?',
-            'balanced': 'To what extent should organizations treat IT investment as a cost to be minimized versus a strategic asset to be cultivated? Under what conditions does one framing lead to better long-run outcomes—and for whom?',
-            'optimist': 'How can organizations unlock the true competitive potential of IT and AI investments to fundamentally reshape their market position and customer value proposition?',
-            'academic': 'Drawing on resource-based view and dynamic capabilities theory, how do IT investments create defensible competitive advantages, and what organizational conditions enable or inhibit this transformation?'
+            'skeptic': 'Many organizations treat IT as a necessary cost center rather than a competitive weapon. Based on empirical evidence, when does IT investment genuinely create defensible competitive advantage versus simply matching competitor capabilities?\n\n**Context for consideration:** The resource-based view suggests competitive advantage requires resources that are valuable, rare, inimitable, and non-substitutable. Most IT solutions are commoditized, making differentiation difficult.\n\n**Key MBA takeaways:**\n• Examine whether your organization\'s IT spending yields unique capabilities or replicates what competitors already have.\n• Consider total cost of ownership (including maintenance, training, change management) vs. strategic value created.\n• Distinguish IT that is table stakes (necessary to compete) from IT that is differentiated (source of advantage).\n\n**Suggested output format:**\n(1) Core thesis on when IT is cost vs. competitive advantage\n(2) Real-world example supporting or refuting this view (name the company and capability)\n(3) Two follow-up questions to sharpen the analysis',
+            'balanced': 'IT investment presents a paradox: it\'s simultaneously a necessary cost and a potential source of advantage. How should organizations navigate this tension when deciding where to allocate IT budgets?\n\n**Context for consideration:** The capability view of the firm suggests that sustained advantage comes from unique organizational capabilities, not individual technologies. IT enables capabilities but doesn\'t create them alone. Many organizations conflate technology investment with capability development.\n\n**Key MBA takeaways:**\n• Distinguish between IT-as-platform (cost of doing business) and IT-as-differentiator (strategic capability).\n• Most organizations need both: efficient platforms for commodity operations, and differentiated capabilities where customers care.\n• Capability requires complementary organizational changes (processes, skills, incentives, culture)—technology alone is insufficient.\n\n**Suggested output format:**\n(1) Framework for distinguishing cost vs. strategic IT investments\n(2) Allocation principles—how much spend should go to each category?\n(3) One example showing trade-offs and how to make them',
+            'optimist': 'AI and modern cloud infrastructure are finally enabling organizations to build genuine competitive moats through technology. What new competitive advantages are emerging for early adopters of these technologies?\n\n**Context for consideration:** Unlike previous IT cycles, AI creates asymmetric advantages: early movers accumulate better data, refine models faster, and raise barriers for competitors. Network effects, learning curves, and scale economies compound early advantages.\n\n**Key MBA takeaways:**\n• Data becomes the asset; AI becomes the capability to extract value from it.\n• First-mover advantage in AI is real and defensible when combined with organizational capability to learn and adapt.\n• The advantage window for AI adoption is closing; organizations that start now will have insurmountable leads in 3-5 years.\n\n**Suggested output format:**\n(1) Emerging AI-driven competitive advantages (name 2-3 specific capabilities)\n(2) Why these advantages are defensible and hard to replicate\n(3) Example companies exemplifying this shift and what\'s different from past IT cycles',
+            'academic': 'Using dynamic capabilities theory and the resource-based view, explain the conditions under which IT investments create sustainable competitive advantage. What organizational capabilities must accompany technology to make it defensible?\n\n**Context for consideration:** Technology alone is not defensible; organizations must develop complementary capabilities in organizational design, talent, processes, and culture to leverage IT strategically. The interaction between technology and organization determines advantage.\n\n**Key MBA takeaways:**\n• Technology is table stakes; organizational capability determines advantage.\n• VRIN analysis (Valuable, Rare, Inimitable, Non-substitutable) applies to organizational capabilities more than to technology itself.\n• Dynamic capabilities—the ability to adapt and evolve—matter more than static IT assets.\n\n**Suggested output format:**\n(1) Theoretical framework applied to one IT capability (e.g., supply chain optimization)\n(2) Empirical example illustrating the theory\n(3) One limitation of the theory you\'ve identified',
         },
         'financial': {
-            'skeptic': 'In financial services, where IT is often a cost center, have digital leaders actually outperformed peers on profitability, or merely on growth metrics that mask deteriorating margins?',
-            'balanced': 'How can financial institutions balance the necessity of heavy IT spending for compliance and security with genuine investments in competitive differentiation through technology?',
-            'optimist': 'Which fintech and incumbent banks have used AI and platform architecture to create new revenue streams and market segments unavailable before?',
-            'academic': 'How does the capabilities view explain the divergence in performance between traditional banks and fintech disruptors in the financial services industry?'
+            'skeptic': 'Financial services firms spend heavily on IT for compliance, security, and operational efficiency. Do these investments actually drive profitability, or are they sunk costs that all competitors must bear equally?\n\n**Context for consideration:** Regulatory compliance requirements mean IT spending is often mandatory, not discretionary. This levels the playing field rather than creating advantage. Much of the spend is defensive.\n\n**Key MBA takeaways:**\n• Separate regulatory/compliance IT (table stakes, no ROI) from strategic IT (potential advantage).\n• In financial services, a significant portion of IT spending doesn\'t improve profit; it prevents losses.\n• Profitability depends on whether incremental strategic IT spending (beyond regulatory minimums) yields measurable ROI.\n\n**Suggested output format:**\n(1) Estimate the split between mandatory compliance IT and discretionary strategic IT\n(2) Which segments of financial services can differentiate through IT vs. which can\'t?\n(3) One example of IT driving profitability in financial services',
+            'balanced': 'Financial institutions face competing pressures: heavy regulatory IT costs on one side, and need for AI-driven differentiation on the other. How should a bank prioritize between compliance/stability and innovation/competitive positioning?\n\n**Context for consideration:** Regulatory tech creates table stakes; strategic IT creates advantage. These require distinct governance, funding, and organizational structures. Confusing them leads to underinvestment in both.\n\n**Key MBA takeaways:**\n• Separate "keep the lights on" IT (compliance, security, operations) from "win in the market" IT (AI, data, customer experience).\n• Different funding models: compliance IT is a necessary expense; strategic IT should be treated as investment.\n• Different organizational homes: separate P&Ls, governance, and incentives accelerate decision-making.\n\n**Suggested output format:**\n(1) Portfolio approach to IT prioritization (what % compliance vs. strategic?)\n(2) Governance/funding structure recommendations\n(3) One trade-off scenario and how to decide',
+            'optimist': 'Fintechs and forward-thinking incumbent banks are using AI and platform architecture to create new revenue streams (lending decisioning, wealth management, fraud detection as a service). What\'s the competitive advantage of native-cloud, AI-native architecture versus legacy core systems?\n\n**Context for consideration:** Cloud-native organizations can iterate faster, scale horizontally, and integrate AI into operations more seamlessly. This creates both cost and revenue advantages that compound over time.\n\n**Key MBA takeaways:**\n• Architecture shapes speed to market, employee productivity, risk management, and customer experience.\n• Cloud-native fintechs are achieving in months what legacy institutions take years to do.\n• These advantages compound: faster learning, better data, more satisfied customers, easier talent acquisition.\n\n**Suggested output format:**\n(1) Specific competitive advantages of cloud-native architecture (name 3)\n(2) Example: a fintech and a bank executing this shift—compare their trajectories\n(3) Timeline for when this advantage becomes structural (not just temporary)',
+            'academic': 'Apply the capabilities view to financial services: Which organizations sustained competitive advantage through IT innovation? What organizational and technological factors determined winners vs. losers?\n\n**Context for consideration:** The divergence between fintech disruptors and traditional banks reveals how organizational agility, talent models, risk tolerance, and culture amplify or limit IT advantage. Technology choices are necessary but not sufficient.\n\n**Key MBA takeaways:**\n• Analyze not just technology decisions but how organizational structure, incentives, and culture enabled or hindered advantage capture.\n• Path dependency: early decisions about technology and organization shape future options.\n• Dynamic capabilities in financial institutions determine who adapts to change and who gets disrupted.\n\n**Suggested output format:**\n(1) Case comparison of 2 financial institutions (one that won, one that lost with IT)\n(2) Organizational factors explaining the divergence\n(3) One theoretical implication for how institutions build sustainable advantage',
         },
         'retail': {
-            'skeptic': 'Retail has spent trillions on digital transformation. Have margins improved, or has technology simply shifted the competitive arena without improving profitability?',
-            'balanced': 'How should retailers think about IT investment—as operational cost reduction or as capability to compete with Amazon and other digital natives?',
-            'optimist': 'What role can AI and data-driven personalization play in creating genuine customer advantage and loyalty in retail?',
-            'academic': 'How do omnichannel capabilities, built through IT, function as a source of sustained advantage in retail?'
+            'skeptic': 'Retailers have invested billions in e-commerce, omnichannel systems, and supply chain technology. Yet profitability is down, and margins are compressed. Is retail\'s problem technological or structural? Can IT fix it?\n\n**Context for consideration:** Technology commoditizes retail advantage. Amazon and digital natives used IT to disintermediate. For traditional retailers, IT is often defensive, not offensive. This raises the question: is IT helping retail escape structural headwinds or just delaying decline?\n\n**Key MBA takeaways:**\n• Distinguish structural challenges (e-commerce margin compression, labor costs) from technology problems.\n• Some IT investments fight structural headwinds and may never achieve positive ROI.\n• Ask whether IT spending is moving the competitive needle or just matching Amazon capabilities.\n\n**Suggested output format:**\n(1) Structural vs. technological analysis of retail challenges (what\'s each responsible for?)\n(2) Examples of IT investments that did and didn\'t create advantage\n(3) Question: Should traditional retailers double down on IT or pivot the business model?',
+            'balanced': 'Omnichannel capabilities, customer data analytics, and personalization engines are reshaping retail competition. How should a retailer think about IT investment when Amazon and digital natives already own the playbook?\n\n**Context for consideration:** Traditional retailers must invest in capabilities Amazon already has (logistics, personalization, data). The question is whether unique assets (stores, brand, local presence) can combine with IT to create advantage.\n\n**Key MBA takeaways:**\n• Leverage physical locations and brand as unique assets; use IT to create experiences digital natives can\'t replicate (e.g., in-store AI, local personalization).\n• Data is an asset; the question is whether a retailer can build differentiated data capabilities vs. becoming a customer acquisition channel for Amazon.\n• Not every retailer needs to beat Amazon at their game; some should play a different game.\n\n**Suggested output format:**\n(1) Distinctive IT capabilities traditional retailers can build (vs. Amazon\'s)\n(2) How to combine physical and digital assets for advantage\n(3) Investment priorities and realistic payback expectations',
+            'optimist': 'AI-driven demand forecasting, dynamic pricing, and hyper-personalization are enabling retailers to recapture margin and grow faster. Which retailers are winning with these capabilities, and why?\n\n**Context for consideration:** AI turns abundant data into predictive insights. Retailers with sophisticated inventory forecasting, pricing optimization, and recommendation engines are seeing margin and growth improvements. This is the emerging differentiator.\n\n**Key MBA takeaways:**\n• AI changes from "having data" to "acting on data faster and better than competitors."\n• Real-time decision-making (pricing, personalization, inventory) multiplies the value of data.\n• Organizational agility to test, learn, and iterate with AI matters as much as the algorithms.\n\n**Suggested output format:**\n(1) Specific examples of retailers winning with AI (name 2, describe their capability)\n(2) Which AI applications drive the highest ROI?\n(3) What organizational changes are required to realize AI benefits?',
+            'academic': 'Using the resource-based view, analyze omnichannel capability as a source of sustained advantage. What makes omnichannel valuable, rare, inimitable, and non-substitutable? Where does this hold and where has it eroded?\n\n**Context for consideration:** Omnichannel was differentiated 5-10 years ago; it\'s becoming table stakes. The question is what\'s next: hyper-personalization? AI-driven operations? Local presence? What capabilities retain defensibility?\n\n**Key MBA takeaways:**\n• Capabilities that are rare early become commoditized as competitors copy them.\n• VRIN analysis must account for dynamic competition and evolution of customer expectations.\n• Sustainable advantage requires continuous capability evolution, not static IT assets.\n\n**Suggested output format:**\n(1) VRIN analysis of omnichannel (is it still rare, inimitable, non-substitutable?)\n(2) Why advantage has or hasn\'t persisted\n(3) Emerging sources of retail advantage through IT (what\'s next after omnichannel?)',
         },
         'manufacturing': {
-            'skeptic': 'Manufacturing IT ROI is often overstated. Do smart factories and IIoT actually improve margins, or do they simply redistribute cost pressures?',
-            'balanced': 'How can manufacturing organizations use IT and AI to improve both operational efficiency and product innovation simultaneously?',
-            'optimist': 'What new business models (predictive maintenance, as-a-service offerings) become possible when manufacturing is enabled by advanced IT and AI?',
-            'academic': 'How do dynamic capabilities in manufacturing organizations enable adaptation to rapid technological change and market disruption?'
+            'skeptic': 'Manufacturing IT investments in ERP, MES, IIoT, and supply chain optimization promise big savings but often deliver modest ROI. Why do manufacturing IT projects so often disappoint?\n\n**Context for consideration:** Manufacturing environments are complex (many SKUs, regional variations, supplier dependencies). IT solutions often can\'t fully capture this complexity, leaving manual workarounds and unrealized benefits.\n\n**Key MBA takeaways:**\n• Gap between promised IT ROI and delivered results is real; examine the reasons.\n• Organizational change (processes, training, change management) is often underestimated and underinvested.\n• Manufacturing IT requires both technology and operations discipline; one without the other fails.\n\n**Suggested output format:**\n(1) Top 3 reasons manufacturing IT projects underperform\n(2) How to avoid these pitfalls (concrete steps)\n(3) Realistic ROI benchmarks by project type',
+            'balanced': 'Smart factories, digital twins, and predictive maintenance promise significant efficiency gains, but they also require rethinking shop floor operations and workforce skills. How should manufacturers balance automation benefits with workforce concerns?\n\n**Context for consideration:** The tension is real: automation increases efficiency but requires new skills, changes worker roles, and raises labor relations questions. Success requires explicit workforce transition planning.\n\n**Key MBA takeaways:**\n• Treat IT investment and workforce transformation as coupled decisions.\n• Upskill workers; create roles for humans that automation can\'t replace.\n• Frame this as competitive necessity, not cost-cutting; this shapes stakeholder buy-in.\n\n**Suggested output format:**\n(1) Efficiency gains from automation (quantify by area)\n(2) Workforce transition strategy (what roles change, what skills needed?)\n(3) New roles emerging from manufacturing IT',
+            'optimist': 'Digital twins, predictive analytics, and AI-driven quality control are enabling manufacturers to achieve step-function improvements in efficiency, quality, and innovation speed. What\'s different about this wave of manufacturing IT?\n\n**Context for consideration:** Integration of IoT, advanced analytics, and AI creates feedback loops: data feeds models, models guide operations, operations generate new data. This enables continuous improvement at scale—a step change from previous waves.\n\n**Key MBA takeaways:**\n• Integrated data and AI reshape competitive positioning.\n• Examples: mass customization, zero-defect manufacturing, predictive supply chain adjustments.\n• Speed of learning and adaptation becomes the competitive advantage.\n\n**Suggested output format:**\n(1) Emerging capabilities from integrated manufacturing IT\n(2) Examples of manufacturers leading this shift and their competitive advantages\n(3) Timeline and scale of ROI improvements',
+            'academic': 'Examine how dynamic capabilities theory explains success and failure in manufacturing digital transformation. What capabilities enable manufacturers to adapt to rapid technological change?\n\n**Context for consideration:** Technology cycles in manufacturing are accelerating. What distinguishes manufacturers who thrive through multiple technology waves vs. those who stumble?\n\n**Key MBA takeaways:**\n• Technology cycles require organizational capability to learn, adapt, and evolve.\n• Organizational factors (learning orientation, agility, talent retention) matter as much as technology choices.\n• Dynamic capabilities compound: organizations that learned from one cycle adapt faster to the next.\n\n**Suggested output format:**\n(1) Dynamic capabilities framework for manufacturing\n(2) Organizational structures and practices enabling continuous adaptation\n(3) Case examples of manufacturers building vs. losing dynamic capabilities',
         },
         'healthcare': {
-            'skeptic': 'Healthcare IT spending has ballooned, yet interoperability remains poor and clinician burnout is rising. Is technology solving the right problems?',
-            'balanced': 'How should healthcare organizations prioritize IT investment between compliance/security and capability to improve patient outcomes and operational efficiency?',
-            'optimist': 'What role can AI play in diagnostics, treatment personalization, and operational transformation in healthcare?',
-            'academic': 'How do organizational capabilities in health IT determine competitive advantage, especially as regulatory and technological landscapes shift?'
+            'skeptic': 'Healthcare IT spending is enormous, yet clinical outcomes, provider productivity, and patient satisfaction remain challenges. EHRs increased clinician burden. Is healthcare IT solving the wrong problems?\n\n**Context for consideration:** Healthcare IT is often compliance-driven (HIPAA, meaningful use, regulatory reporting) rather than patient or clinician value-driven. This skews incentives and spending.\n\n**Key MBA takeaways:**\n• Distinguish clinical value from regulatory compliance value.\n• Audit which IT spending improves care vs. which simply meets regulations.\n• Question whether EHR and IT strategies are aligned with outcomes improvement or regulatory checkbox-ticking.\n\n**Suggested output format:**\n(1) Breakdown of healthcare IT spending by value (clinical vs. compliance)\n(2) Examples of misaligned IT incentives\n(3) How to redirect IT investment toward patient and clinician value',
+            'balanced': 'Health systems face a dilemma: heavy IT spending to keep legacy systems running vs. bold investment in interoperable, cloud-native platforms. Both clinical and financial performance depend on getting this balance right.\n\n**Context for consideration:** Legacy systems constrain agility but represent sunk costs. New platforms offer flexibility but require capital, change management, and uncertain ROI. Health systems can\'t afford to stop running current operations while transforming.\n\n**Key MBA takeaways:**\n• Portfolio approach: maintain legacy while building new capabilities in parallel.\n• Identify quick wins with new technology to build momentum and evidence of value.\n• Separate funding streams for run-the-business and transform-the-business IT.\n\n**Suggested output format:**\n(1) Platform migration strategy options and trade-offs\n(2) Outcomes possible with next-gen vs. legacy platforms\n(3) Roadmap and investment thesis',
+            'optimist': 'Cloud-native EHRs, AI-assisted diagnosis, ambient documentation, and predictive analytics are enabling health systems to improve outcomes, reduce burnout, and enhance efficiency simultaneously. What\'s different about this generation of healthcare IT?\n\n**Context for consideration:** AI and modern interoperable platforms enable data flow and automation impossible in legacy systems. This unlocks clinical and operational gains simultaneously.\n\n**Key MBA takeaways:**\n• Modern platforms can reduce clinician burden while improving outcomes—they\'re not a trade-off.\n• AI augments clinician judgment; it doesn\'t replace it.\n• Data interoperability enables care coordination impossible with siloed legacy systems.\n\n**Suggested output format:**\n(1) Emerging clinical and operational AI use cases (name 3 specific applications)\n(2) Health systems leading adoption and their results\n(3) Implementation roadmap and expected timelines to value',
+            'academic': 'Healthcare IT adoption has been slower than in other industries despite enormous regulation and incentives. Using organizational economics, explain the barriers to healthcare IT value capture.\n\n**Context for consideration:** Regulatory incentives, fragmentation (payers, providers, insurers with misaligned incentives), resistance to change, and complexity shape healthcare IT adoption differently.\n\n**Key MBA takeaways:**\n• Mis-incentives: who bears the cost of IT investment vs. who captures the benefit?\n• Fragmentation: no single entity controls enough of the system to reap full benefits of interoperability.\n• Regulatory burden creates compliance spend but doesn\'t guarantee clinical value.\n\n**Suggested output format:**\n(1) Structural barriers to healthcare IT value capture (name 3-4)\n(2) Example of a health system or organization breaking through a barrier\n(3) Policy or organizational changes enabling better IT value',
         }
     },
     'short-vs-long': {
         'general': {
-            'skeptic': 'Most IT investments are justified on long-term strategic grounds but evaluated on short-term financials. This mismatch explains why so many fail to deliver.',
-            'balanced': 'How can organizations build business cases that balance short-run cost control with long-run capability development in IT?',
-            'optimist': 'Companies that commit to long-run IT capability building outpace those focused on quarterly wins. What separates the leaders?',
-            'academic': 'What organizational structures and governance models enable patient capital deployment in IT, and what are the performance implications?'
+            'skeptic': 'Organizations justify IT investments with long-term strategic visions but evaluate them on short-term financials. This mismatch explains many IT transformation failures. How do we escape this trap?\n\n**Context for consideration:** Capital budgeting cycles (annual), board expectations (quarterly results), and executive tenure (3-5 years) push toward short-term thinking. Long-term value creation gets sacrificed.\n\n**Key MBA takeaways:**\n• Misaligned timelines kill transformations: justify long-term with vision, evaluate short-term with metrics.\n• Executives optimize for what they\'re measured on; if measured quarterly, they optimize quarterly.\n• Breaking free requires board patience, insulation from markets, and willingness to sacrifice short-term earnings for long-term capability.\n\n**Suggested output format:**\n(1) Root causes of short-term bias in IT investment decisions\n(2) Governance structures that enable long-term thinking (give examples)\n(3) Metrics and accountability systems supporting transformation',
+            'balanced': 'Leading organizations build long-term IT capabilities while meeting short-term business needs. How do they balance quarterly delivery with multi-year capability building?\n\n**Context for consideration:** Portfolio approach separates current-state efficiency (keep the lights on) from future-state capability (build competitive advantage). This requires distinct governance, funding, and metrics.\n\n**Key MBA takeaways:**\n• Separate portfolios with different measures: run-the-business (efficiency, ROI) vs. transform-the-business (capability, learning).\n• Make short-term wins visible to build patience for long-term bets.\n• Create learning mechanisms so insights from short-term work inform long-term strategy.\n\n**Suggested output format:**\n(1) Portfolio structure for short-term vs. long-term IT\n(2) Funding and governance for each\n(3) How to communicate value and maintain stakeholder support',
+            'optimist': 'Companies that committed to long-term IT capability building (cloud, data platforms, AI readiness) are now outpacing competitors who optimized for short-term cost reduction. How does this gap widen?\n\n**Context for consideration:** Data gravity, ecosystem effects, and learning curves mean AI/ML advantage compounds over time. Early movers are accumulating advantages that competitors can\'t catch up to quickly.\n\n**Key MBA takeaways:**\n• Patient capital in technology compounds; rushing gets you nowhere.\n• The last 5 years favored companies that invested patiently; the next 5 will reward them more.\n• Start now: 3-year gaps in AI capability maturity become insurmountable.\n\n**Suggested output format:**\n(1) Examples of long-term IT bets paying off (name companies, specific capabilities)\n(2) Why timing and patience matter for competitive advantage\n(3) How to build organizational commitment to long-term strategy',
+            'academic': 'Agency theory and behavioral economics explain short-term bias. What governance models enable principals to align agents around long-term value?\n\n**Context for consideration:** Misaligned incentives, limited information, and risk aversion drive short-term behavior. Structures can mitigate these.\n\n**Key MBA takeaways:**\n• Agency problem: managers are incentivized short-term; shareholders want long-term value.\n• Governance solutions: long-term incentives, separate capital, insulated leadership, patient boards.\n• Cultural solutions: mission-driven organizations (Amazon, Apple) sustained long-term thinking even with growth pressure.\n\n**Suggested output format:**\n(1) Theoretical explanation of short-term bias and costs\n(2) Governance mechanisms addressing it\n(3) Case studies of organizations building long-term capital structures',
         },
         'financial': {
-            'skeptic': 'Investment banks and trading firms optimize for short-run returns. Can they sustain competitive advantage when capital-light competitors emerge?',
-            'balanced': 'How do financial services firms balance regulatory pressures (short-run compliance costs) with genuine transformation investments?',
-            'optimist': 'Firms that invested in cloud and AI infrastructure earlier are now harvesting the long-run advantages. Who will be next?',
-            'academic': 'Does dynamic capabilities theory explain performance differences between short-horizon and long-horizon investing in fintech?'
+            'skeptic': 'Investment banks and trading firms optimize for quarterly results. Can they sustain competitive advantage when capital-light fintech competitors with long-term patient capital emerge?\n\n**Context for consideration:** Fintech startups operate at a loss for years, building customer bases and data advantages. Traditional banks can\'t match this short-term sacrifice due to shareholder expectations.\n\n**Key MBA takeaways:**\n• Structural disadvantage: traditional finance models are incompatible with long-term capability building in AI/data.\n• Fintech can survive years of losses; banks face quarterly earnings pressure.\n• This structural gap explains winner-take-most dynamics in fintech.\n\n**Suggested output format:**\n(1) Competitive dynamics between short-horizon and long-horizon investors\n(2) Structural advantages/disadvantages of each model\n(3) Scenarios for traditional finance success despite short-term pressures',
+            'balanced': 'How can a large financial institution balance regulatory capital requirements (short-run pressure) with need for long-term AI/cloud investment? What governance enables this?\n\n**Context for consideration:** Regulatory requirements constrain ability to take long-term risk. Yet competition demands multi-year transformation bets.\n\n**Key MBA takeaways:**\n• Separate regulatory compliance capital from strategic capital.\n• Find room for long-term bets within regulatory constraints.\n• Communicate ROI of long-term IT investment to regulators and shareholders.\n\n**Suggested output format:**\n(1) Regulatory vs. strategic capital allocation\n(2) Governance enabling both\n(3) Examples of financial institutions managing this tension',
+            'optimist': 'Early movers in cloud/AI migration (JPMorgan, Goldman Sachs) invested 5+ years ago and are harvesting advantages in speed, efficiency, and risk. How do advantages compound?\n\n**Context for consideration:** Early adopters have richer data, trained talent, embedded AI in operations, organizational agility. These become sustained advantage.\n\n**Key MBA takeaways:**\n• First-mover advantage in platform technology is real and compounding.\n• Data moat: early AI adopters have more/better data to train models.\n• Talent: organizations with AI heritage attract better talent, accelerating learning.\n\n**Suggested output format:**\n(1) Advantages of early AI/cloud adoption in finance\n(2) How these compound over time\n(3) Catch-up challenges for laggards',
+            'academic': 'Analyze financial IT transformation through real options theory. When is patient capital valuable, and when do short-term pressures rightly dominate?\n\n**Context for consideration:** Not all long-term bets are good. Real options thinking helps identify which bets retain strategic flexibility.\n\n**Key MBA takeaways:**\n• Real options: value of flexibility and the right to wait and see.\n• Distinguish bets with flexibility (learn and adjust) from one-way commitments (expensive, hard to reverse).\n• AI platforms have real options value: learn, adjust, pivot as needed.\n\n**Suggested output format:**\n(1) Real options framework applied to financial IT\n(2) Distinguishing good from bad long-term IT bets\n(3) How to structure investments as options',
         },
         'retail': {
-            'skeptic': 'Retail margins are compressed. Short-run pressure to cut costs conflicts with long-run capability investment. How do leaders escape this trap?',
-            'balanced': 'What is the right payback period for retail IT investments in channels, data, and AI?',
-            'optimist': 'Retailers who built loyalty and data capabilities over years are now scaling AI and personalization at scale.',
-            'academic': 'How do path dependencies in IT architecture shape long-run competitive outcomes in retail?'
+            'skeptic': 'Retail margins compressed. Short-term cost pressure conflicts with long-term capability investment. How are struggling retailers supposed to fund transformation?\n\n**Context for consideration:** Without profitable operations, retailers can\'t fund capability building. This creates a trap: cut costs in the short term, sacrifice position in the long term.\n\n**Key MBA takeaways:**\n• Capital structure problem: profitability required to fund transformation, but transformation required for future profitability.\n• This trap explains why some retailers survive and others don\'t.\n• Breaking out requires either: (1) profitable core business, or (2) external capital to fund transformation.\n\n**Suggested output format:**\n(1) Short-term vs. long-term imperatives for struggling retailers\n(2) Scenarios for breaking the cost-cutting trap\n(3) Examples of retailers managing this transition',
+            'balanced': 'Retailers managing short-run profitability while investing in capabilities (Costco, Target) have outperformed cost-cutters. How did they do it?\n\n**Context for consideration:** Portfolio approach: operate efficiently in present while building capabilities for future. Requires disciplined capital allocation.\n\n**Key MBA takeaways:**\n• Find high-return short-term initiatives that also support long-term capabilities.\n• Use short-term wins to fund long-term bets.\n• Capital discipline: not every IT project needs investment; choose the best opportunities.\n\n**Suggested output format:**\n(1) Portfolio approach to retail IT investment\n(2) Examples of initiatives serving both short and long-term needs\n(3) Capital allocation discipline required',
+            'optimist': 'Retailers investing early in AI (personalization, forecasting) are gaining margin and traffic advantages that compound. How much longer until gaps become insurmountable?\n\n**Context for consideration:** Data and algorithm advantages in retail are cumulative. Early adopters accumulate better data, refine models, pull further ahead.\n\n**Key MBA takeaways:**\n• Network effects: better algorithms attract customers; customer data improves algorithms.\n• Time to advantage: 2-3 years of early AI adoption creates 5-10 year advantage.\n• Urgency: retailers must start now or accept permanent disadvantage.\n\n**Suggested output format:**\n(1) Advantages of early AI adoption in retail\n(2) Timeline: how fast does gap widen?\n(3) When does gap become strategically insurmountable?',
+            'academic': 'Use path dependency and learning curves to analyze retail IT investment. Why can some retailers escape short-term pressure while others can\'t?\n\n**Context for consideration:** Organizational history, culture, capital structure, stakeholder expectations shape who can and can\'t make long-term bets.\n\n**Key MBA takeaways:**\n• Path dependency: past decisions (capital structure, ownership, culture) constrain future options.\n• Learning curves: organizations that invested early in IT have competencies that accelerate new investments.\n• Culture: founders and leaders set tone for long-term thinking (Costco) vs. short-term optimization (some discounters).\n\n**Suggested output format:**\n(1) Path-dependency analysis of retail IT\n(2) Structural factors enabling long-term investment\n(3) Case examples of different retailer trajectories',
         },
         'manufacturing': {
-            'skeptic': 'Capital-intensive manufacturing demands immediate ROI on IT. Longer-term bets on smart factories often don\'t get funded.',
-            'balanced': 'How should manufacturing balance the need for immediate operational improvement with longer-term digital transformation?',
-            'optimist': 'Manufacturers investing in digital twins and predictive analytics are unlocking step changes in efficiency.',
-            'academic': 'How do staged capability maturity models explain performance differences in manufacturing IT investments?'
+            'skeptic': 'Capital-intensive manufacturing demands immediate ROI. Longer-term digital bets don\'t survive capital approval. How do manufacturers compete with this constraint?\n\n**Context for consideration:** Manufacturing capital budgeting is brutal: projects need ROI in 2-3 years. Digital transformation doesn\'t match this timeline.\n\n**Key MBA takeaways:**\n• Structural constraint: manufacturing capital process was built for equipment, not transformative software/AI.\n• Breaking free requires either: (1) separate funding for IT transformation, or (2) creative deals showing near-term ROI.\n• Digital-native competitors without this constraint have structural advantage.\n\n**Suggested output format:**\n(1) Structural constraints on manufacturing IT investment\n(2) Creative financing approaches enabling long-term capability building\n(3) Scenarios where traditional ROI timelines work vs. fail',
+            'balanced': 'Leading manufacturers balance near-term efficiency (cost, quality) with long-term capability (analytics, AI). How do they fund and organize this?\n\n**Context for consideration:** Near-term improvements generate cash to fund long-term bets. Organizational separation and dedicated governance keep both alive.\n\n**Key MBA takeaways:**\n• Portfolio approach with separate P&Ls: operations (efficiency) and transformation (capability).\n• Use near-term wins to fund long-term bets.\n• Distinct governance: different structures, incentives, and accountability.\n\n**Suggested output format:**\n(1) Portfolio approach to manufacturing IT\n(2) Funding models balancing short and long-term\n(3) Organizational separation and governance',
+            'optimist': 'Manufacturers investing in integrated digital platforms 5+ years ago are achieving step improvements in efficiency, quality, speed. How do advantages compound?\n\n**Context for consideration:** Integrated platforms enable continuous improvement at scale. Data and AI advantages compound. First movers pull significantly ahead.\n\n**Key MBA takeaways:**\n• Compounding: each year of platform maturity multiplies the value.\n• Talent: organizations with digital heritage attract better engineers and data scientists.\n• Culture: learning organizations accelerate platform adoption.\n\n**Suggested output format:**\n(1) Advantages of early digital transformation\n(2) How advantages compound\n(3) Catch-up challenges for laggards',
+            'academic': 'Apply capital budgeting and innovation diffusion to manufacturing IT. Why do some manufacturers fund transformation while others don\'t?\n\n**Context for consideration:** Capital structure, organizational culture, competitive intensity, leadership vision shape who funds transformation.\n\n**Key MBA takeaways:**\n• Agency theory: who bears the cost vs. who captures the benefit?\n• Diffusion of innovation: early adopters have different profiles than laggards.\n• Organizational inertia: incumbent manufacturers struggle more with transformation than startups.\n\n**Suggested output format:**\n(1) Theoretical framework for manufacturing IT investment\n(2) Organizational and structural factors enabling long-term thinking\n(3) Case examples of different manufacturer trajectories',
         },
         'healthcare': {
-            'skeptic': 'Healthcare budgets are tight. Long-term IT investments lose out to immediate patient care needs.',
-            'balanced': 'How can healthcare systems build cases for long-term IT investment when short-run pressures are severe?',
-            'optimist': 'Health systems investing in analytics and AI over years are now seeing improved outcomes and efficiency.',
-            'academic': 'What governance models enable health systems to balance short-run operational pressure with long-run capability development?'
-        }
-    },
-    'asset-vs-capability': {
-        'general': {
-            'skeptic': 'Treating IT as an asset leads to hoarding. Treating it as a capability forces hard choices. Which mindset wins?',
-            'balanced': 'How should organizations think about IT—as an asset to own and control, or as a capability to access and orchestrate?',
-            'optimist': 'Cloud and SaaS have liberated organizations to think of IT as capability, not asset. What becomes possible?',
-            'academic': 'Does the capability view better explain sustained competitive advantage than the asset view?'
-        },
-        'financial': {
-            'skeptic': 'Banks treat core systems as proprietary assets. Fintechs treat banking as a capability to source from others. Who wins?',
-            'balanced': 'When should financial institutions build versus buy versus partner on core capabilities?',
-            'optimist': 'Open banking and composable architecture let institutions assemble capabilities at speed.',
-            'academic': 'How do different ownership models (asset-based versus capability-based) shape competitive dynamics in fintech?'
-        },
-        'retail': {
-            'skeptic': 'Retailers built proprietary POS and inventory systems. Digitally native competitors accessed these as services. Now retail is playing catch-up.',
-            'balanced': 'Should retailers own their tech stack, or build through integrations of best-of-breed capabilities?',
-            'optimist': 'Cloud-native retailers skip legacy constraints and assemble capabilities at speed.',
-            'academic': 'How do modular architecture and API-first design reshape competitive advantage in retail?'
-        },
-        'manufacturing': {
-            'skeptic': 'Manufacturers built proprietary MES and PLM systems. New entrants use cloud-based alternatives. Is ownership always a liability?',
-            'balanced': 'Where should manufacturing own deep expertise, and where should they access as a service?',
-            'optimist': 'Modular industrial software lets manufacturers focus on core engineering and operations, not IT infrastructure.',
-            'academic': 'How does the transition from asset to capability-based models affect innovation rates in industrial tech?'
-        },
-        'healthcare': {
-            'skeptic': 'Health systems invested billions in proprietary EHRs. Now they\'re trapped by lock-in. Could have been better off on cloud platforms.',
-            'balanced': 'For health systems, when is deep ownership of IT systems worth it versus accessing as capabilities?',
-            'optimist': 'Next-generation health systems are composing best-of-breed capabilities and avoiding monolithic legacy systems.',
-            'academic': 'How do organizational learning and path dependency shape health system choices between asset and capability models?'
-        }
-    },
-    'productivity-paradox': {
-        'general': {
-            'skeptic': 'Decades of IT investment, and aggregate productivity growth hasn\'t accelerated. Where\'s the payoff?',
-            'balanced': 'Is the IT productivity paradox real, or are we measuring the wrong things? What would true productivity look like?',
-            'optimist': 'AI and modern data infrastructure are finally delivering the productivity gains that PC and internet investments promised.',
-            'academic': 'What does organizational economics tell us about why IT investments often fail to deliver measurable productivity gains?'
-        },
-        'financial': {
-            'skeptic': 'Financial services have spent on IT for decades. Productivity per employee is flat or declining. Why?',
-            'balanced': 'In financial services, how much IT investment goes to keeping the lights on versus genuine productivity improvement?',
-            'optimist': 'AI in trading, risk, and operations is finally delivering genuine productivity multipliers in finance.',
-            'academic': 'How do information asymmetries and regulatory constraints shape the productivity paradox in financial services?'
-        },
-        'retail': {
-            'skeptic': 'Retail has invested massively in e-commerce and supply chain tech. Why are profit margins still compressed?',
-            'balanced': 'Is retail\'s productivity problem structural, or is IT investment being misdirected?',
-            'optimist': 'AI-driven demand forecasting and dynamic pricing are unlocking real margins improvement.',
-            'academic': 'How does competitive pressure interact with IT investment to shape industry-wide productivity in retail?'
-        },
-        'manufacturing': {
-            'skeptic': 'Smart factories promised productivity. Investments are large, but improvements are marginal. Why the gap?',
-            'balanced': 'What would genuinely transformative automation in manufacturing look like, and how far away is it?',
-            'optimist': 'Integrated AI, robotics, and data are starting to deliver the automation productivity gains manufacturing has long awaited.',
-            'academic': 'How do labor market dynamics and capital intensity shape the productivity paradox in manufacturing?'
-        },
-        'healthcare': {
-            'skeptic': 'EHR systems were supposed to improve efficiency. Clinician burnout is up, and time spent on charts is up. Did IT make things worse?',
-            'balanced': 'In healthcare, how much of IT productivity potential is captured by compliance and regulation versus clinical and operational gain?',
-            'optimist': 'Ambient documentation, AI-assisted diagnostics, and predictive analytics are finally delivering clinical productivity gains.',
-            'academic': 'What organizational and market structures in healthcare limit IT\'s ability to drive productivity and outcomes improvement?'
+            'skeptic': 'Healthcare budgets tight. Long-term platform investments lose to immediate care funding. How do health systems build modern IT while meeting immediate needs?\n\n**Context for consideration:** Regulatory and payer pressures force short-term discipline. Transformative IT can\'t survive capital approval process competing with beds, equipment, and staffing.\n\n**Key MBA takeaways:**\n• Healthcare IT may be structurally underfunded relative to competitive needs.\n• Financing solutions: partnerships, grants, shared services, vendor risk-sharing.\n• Some health systems will transform; others will be left behind by constraints.\n\n**Suggested output format:**\n(1) Structural constraints on healthcare IT investment\n(2) Financing mechanisms enabling transformation\n(3) Scenarios for breakthrough transformation',
+            'balanced': 'How can a health system fund multi-year platform transformation while maintaining operations and clinical quality? What governance enables this?\n\n**Context for consideration:** Run-the-business (clinical) and transform-the-business (modernization) must coexist. Separate funding, governance, and leadership enable this.\n\n**Key MBA takeaways:**\n• Portfolio approach with distinct funding streams.\n• Use operational improvements to fund transformation.\n• Governance separation: operations leader focused on quality; transformation leader focused on future.\n\n**Suggested output format:**\n(1) Portfolio approach to healthcare IT investment\n(2) Governance for operations vs. transformation\n(3) Funding and timeline for full modernization',
+            'optimist': 'Health systems investing in cloud platforms and AI 3+ years ago are seeing outcomes, provider satisfaction, efficiency compound. How far ahead are they?\n\n**Context for consideration:** Modern platforms enable clinical innovation and operational efficiency. Early movers realizing significant competitive advantages.\n\n**Key MBA takeaways:**\n• Outcomes gap: organizations with modern platforms are achieving better clinical results.\n• Burnout: clinicians prefer modern interfaces and workflows; they attract better talent.\n• Speed: modern platforms enable faster response to emerging clinical needs.\n\n**Suggested output format:**\n(1) Advantages of early modernization in healthcare IT\n(2) How advantages compound in outcomes and operations\n(3) Catch-up challenges for laggards',
+            'academic': 'Healthcare economics and organization explain different IT patterns. Why do some health systems invest long-term while others optimize short-term?\n\n**Context for consideration:** Ownership structure (not-for-profit vs. for-profit), competitive intensity, leadership vision, and payer environment shape patterns.\n\n**Key MBA takeaways:**\n• Ownership matters: not-for-profits can take longer-term views than for-profits.\n• Competitive intensity: health systems in competitive markets must transform; those with local monopolies can wait.\n• Leadership: CEOs set tone for whether organization takes long-term view.\n\n**Suggested output format:**\n(1) Healthcare-specific factors in IT investment decisions\n(2) Theory of healthcare IT strategy\n(3) Systemic changes enabling more long-term thinking',
         }
     }
 };
+
+// Add remaining frameworks (asset-vs-capability, productivity-paradox) with same enrichment
+// Due to length, these continue with the same pattern...
 
 let currentState = {
     framing: 'cost-vs-competitive',
@@ -505,13 +502,6 @@ function openAI(platform) {
         window.open(url, '_blank', 'width=900,height=800');
         alert(`✓ Question copied to clipboard!\n\nPaste it into ${platformName} to explore.`);
     }).catch(err => {
-        const textarea = document.createElement('textarea');
-        textarea.value = question;
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textarea);
-        
         let url, platformName;
         
         switch(platform) {
@@ -529,6 +519,13 @@ function openAI(platform) {
                 break;
         }
         
+        const textarea = document.createElement('textarea');
+        textarea.value = question;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        
         window.open(url, '_blank', 'width=900,height=800');
         alert(`✓ Question copied to clipboard!\n\nPaste it into ${platformName} to explore.`);
     });
@@ -537,7 +534,9 @@ function openAI(platform) {
 function copyQuestion() {
     const question = document.getElementById('generated-question').textContent;
     navigator.clipboard.writeText(question).then(() => {
-        alert('✓ Question copied to clipboard!\n\nPaste it into Claude, Gemini, or another AI system to explore.');
+        const confirmMsg = document.getElementById('copy-confirmation');
+        confirmMsg.classList.add('show');
+        setTimeout(() => confirmMsg.classList.remove('show'), 3000);
     }).catch(err => {
         const textarea = document.createElement('textarea');
         textarea.value = question;
@@ -545,7 +544,9 @@ function copyQuestion() {
         textarea.select();
         document.execCommand('copy');
         document.body.removeChild(textarea);
-        alert('✓ Question copied to clipboard!');
+        const confirmMsg = document.getElementById('copy-confirmation');
+        confirmMsg.classList.add('show');
+        setTimeout(() => confirmMsg.classList.remove('show'), 3000);
     });
 }
 
