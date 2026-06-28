@@ -1,1 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S596 IT Strategy Question Launcher</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; 
+            line-height: 1.6; 
+            color: #333;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(90deg, #8B0000 0%, #A50000 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin: 0 0 0.5rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        
+        .header i { font-size: 32px; }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+            margin: 0;
+        }
+        
+        .content {
+            padding: 2rem;
+        }
+        
+        .section {
+            margin-bottom: 2rem;
+        }
+        
+        .section-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 0 0 0.75rem 0;
+        }
+        
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .toggle-btn {
+            background: transparent;
+            border: 0.5px solid #ccc;
+            color: #333;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            font-weight: 500;
+        }
+        
+        .toggle-btn:hover {
+            border-color: #8B0000;
+            color: #8B0000;
+            background: #fafafa;
+        }
+        
+        .toggle-btn.active {
+            background: #8B0000;
+            color: white;
+            border-color: #8B0000;
+        }
+        
+        .question-box {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .question-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #999;
+            text-transform: uppercase;
+            margin: 0 0 0.75rem 0;
+            letter-spacing: 0.5px;
+        }
+        
+        .question-text {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.7;
+            margin: 0;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 1rem;
+        }
+        
+        .action-buttons button {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+        
+        .btn-primary {
+            background: #8B0000;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #6B0000;
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 0.5px solid #ccc;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            border-color: #8B0000;
+            color: #8B0000;
+            background: #fafafa;
+        }
+        
+        .tip {
+            background: #f0f0f0;
+            border-left: 4px solid #8B0000;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .tip strong {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer {
+            background: #f9f9f9;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+        
+        .footer a {
+            color: #8B0000;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .footer i {
+            margin-right: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <!-- Header -->
+    <div class="header">
+        <h1><i class="fas fa-lightbulb"></i> Question Launcher</h1>
+        <p>S596 IT Strategy | Explore strategic questions through multiple lenses</p>
+    </div>
+    
+    <!-- Content -->
+    <div class="content">
+        
+        <!-- Framing Lens -->
+        <div class="section">
+            <div class="section-label">Framing Lens</div>
+            <div class="button-group" id="framing-group">
+                <button class="toggle-btn active" data-type="framing" data-value="cost-vs-competitive">Cost center vs. competitive weapon</button>
+                <button class="toggle-btn" data-type="framing" data-value="short-vs-long">Short-run vs. long-run advantage</button>
+                <button class="toggle-btn" data-type="framing" data-value="asset-vs-capability">Asset or capability?</button>
+                <button class="toggle-btn" data-type="framing" data-value="productivity-paradox">The IT productivity paradox</button>
+            </div>
+        </div>
+        
+        <!-- Industry Context -->
+        <div class="section">
+            <div class="section-label">Industry Context</div>
+            <div class="button-group" id="industry-group">
+                <button class="toggle-btn active" data-type="industry" data-value="general">General / cross-industry</button>
+                <button class="toggle-btn" data-type="industry" data-value="financial">Financial services</button>
+                <button class="toggle-btn" data-type="industry" data-value="retail">Retail / e-commerce</button>
+                <button class="toggle-btn" data-type="industry" data-value="manufacturing">Manufacturing / industrial</button>
+                <button class="toggle-btn" data-type="industry" data-value="healthcare">Healthcare</button>
+            </div>
+        </div>
+        
+        <!-- Provocateur Dial -->
+        <div class="section">
+            <div class="section-label">Provocateur Dial</div>
+            <div class="button-group" id="provocateur-group">
+                <button class="toggle-btn" data-type="provocateur" data-value="skeptic">Play the skeptic</button>
+                <button class="toggle-btn active" data-type="provocateur" data-value="balanced">Balanced tension</button>
+                <button class="toggle-btn" data-type="provocateur" data-value="optimist">Play the optimist</button>
+                <button class="toggle-btn" data-type="provocateur" data-value="academic">Academic / evidence-based</button>
+            </div>
+        </div>
+        
+        <!-- Generated Question -->
+        <div class="question-box">
+            <div class="question-label">Generated Question</div>
+            <p class="question-text" id="generated-question">To what extent should organizations treat IT investment as a cost to be minimized versus a strategic asset to be cultivated? Under what conditions does one framing lead to better long-run outcomes—and for whom?</p>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button class="btn-secondary" onclick="copyQuestion()"><i class="fas fa-copy"></i> Copy</button>
+            <button class="btn-secondary" onclick="surpriseMe()"><i class="fas fa-dice"></i> Surprise me</button>
+        </div>
+        
+        <!-- Tip -->
+        <div class="tip">
+            <strong>💡 Tip:</strong> Try the same question with different framing lenses in Claude, Gemini, or other AI systems. Notice how the answers diverge—that difference is worth discussing in class.
+        </div>
+        
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+        <a href="#" onclick="goBackToCanvas(); return false;"><i class="fas fa-arrow-left"></i> Back to Canvas</a>
+    </div>
+
+</div>
+
+<script>
+// Question templates (80+ variations across 4 framings × 5 industries × 4 provocateur stances)
+const questionTemplates = {
+    'cost-vs-competitive': {
+        'general': {
+            'skeptic': 'What evidence suggests that IT investment genuinely drives competitive advantage, versus serving merely as table stakes that all competitors must match? How do we distinguish real differentiation from hype?',
+            'balanced': 'To what extent should organizations treat IT investment as a cost to be minimized versus a strategic asset to be cultivated? Under what conditions does one framing lead to better long-run outcomes—and for whom?',
+            'optimist': 'How can organizations unlock the true competitive potential of IT and AI investments to fundamentally reshape their market position and customer value proposition?',
+            'academic': 'Drawing on resource-based view and dynamic capabilities theory, how do IT investments create defensible competitive advantages, and what organizational conditions enable or inhibit this transformation?'
+        },
+        'financial': {
+            'skeptic': 'In financial services, where IT is often a cost center, have digital leaders actually outperformed peers on profitability, or merely on growth metrics that mask deteriorating margins?',
+            'balanced': 'How can financial institutions balance the necessity of heavy IT spending for compliance and security with genuine investments in competitive differentiation through technology?',
+            'optimist': 'Which fintech and incumbent banks have used AI and platform architecture to create new revenue streams and market segments unavailable before?',
+            'academic': 'How does the capabilities view explain the divergence in performance between traditional banks and fintech disruptors in the financial services industry?'
+        },
+        'retail': {
+            'skeptic': 'Retail has spent trillions on digital transformation. Have margins improved, or has technology simply shifted the competitive arena without improving profitability?',
+            'balanced': 'How should retailers think about IT investment—as operational cost reduction or as capability to compete with Amazon and other digital natives?',
+            'optimist': 'What role can AI and data-driven personalization play in creating genuine customer advantage and loyalty in retail?',
+            'academic': 'How do omnichannel capabilities, built through IT, function as a source of sustained advantage in retail?'
+        },
+        'manufacturing': {
+            'skeptic': 'Manufacturing IT ROI is often overstated. Do smart factories and IIoT actually improve margins, or do they simply redistribute cost pressures?',
+            'balanced': 'How can manufacturing organizations use IT and AI to improve both operational efficiency and product innovation simultaneously?',
+            'optimist': 'What new business models (predictive maintenance, as-a-service offerings) become possible when manufacturing is enabled by advanced IT and AI?',
+            'academic': 'How do dynamic capabilities in manufacturing organizations enable adaptation to rapid technological change and market disruption?'
+        },
+        'healthcare': {
+            'skeptic': 'Healthcare IT spending has ballooned, yet interoperability remains poor and clinician burnout is rising. Is technology solving the right problems?',
+            'balanced': 'How should healthcare organizations prioritize IT investment between compliance/security and capability to improve patient outcomes and operational efficiency?',
+            'optimist': 'What role can AI play in diagnostics, treatment personalization, and operational transformation in healthcare?',
+            'academic': 'How do organizational capabilities in health IT determine competitive advantage, especially as regulatory and technological landscapes shift?'
+        }
+    },
+    'short-vs-long': {
+        'general': {
+            'skeptic': 'Most IT investments are justified on long-term strategic grounds but evaluated on short-term financials. This mismatch explains why so many fail to deliver.',
+            'balanced': 'How can organizations build business cases that balance short-run cost control with long-run capability development in IT?',
+            'optimist': 'Companies that commit to long-run IT capability building outpace those focused on quarterly wins. What separates the leaders?',
+            'academic': 'What organizational structures and governance models enable patient capital deployment in IT, and what are the performance implications?'
+        },
+        'financial': {
+            'skeptic': 'Investment banks and trading firms optimize for short-run returns. Can they sustain competitive advantage when capital-light competitors emerge?',
+            'balanced': 'How do financial services firms balance regulatory pressures (short-run compliance costs) with genuine transformation investments?',
+            'optimist': 'Firms that invested in cloud and AI infrastructure earlier are now harvesting the long-run advantages. Who will be next?',
+            'academic': 'Does dynamic capabilities theory explain performance differences between short-horizon and long-horizon investing in fintech?'
+        },
+        'retail': {
+            'skeptic': 'Retail margins are compressed. Short-run pressure to cut costs conflicts with long-run capability investment. How do leaders escape this trap?',
+            'balanced': 'What is the right payback period for retail IT investments in channels, data, and AI?',
+            'optimist': 'Retailers who built loyalty and data capabilities over years are now scaling AI and personalization at scale.',
+            'academic': 'How do path dependencies in IT architecture shape long-run competitive outcomes in retail?'
+        },
+        'manufacturing': {
+            'skeptic': 'Capital-intensive manufacturing demands immediate ROI on IT. Longer-term bets on smart factories often don\'t get funded.',
+            'balanced': 'How should manufacturing balance the need for immediate operational improvement with longer-term digital transformation?',
+            'optimist': 'Manufacturers investing in digital twins and predictive analytics are unlocking step changes in efficiency.',
+            'academic': 'How do staged capability maturity models explain performance differences in manufacturing IT investments?'
+        },
+        'healthcare': {
+            'skeptic': 'Healthcare budgets are tight. Long-term IT investments lose out to immediate patient care needs.',
+            'balanced': 'How can healthcare systems build cases for long-term IT investment when short-run pressures are severe?',
+            'optimist': 'Health systems investing in analytics and AI over years are now seeing improved outcomes and efficiency.',
+            'academic': 'What governance models enable health systems to balance short-run operational pressure with long-run capability development?'
+        }
+    },
+    'asset-vs-capability': {
+        'general': {
+            'skeptic': 'Treating IT as an asset leads to hoarding. Treating it as a capability forces hard choices. Which mindset wins?',
+            'balanced': 'How should organizations think about IT—as an asset to own and control, or as a capability to access and orchestrate?',
+            'optimist': 'Cloud and SaaS have liberated organizations to think of IT as capability, not asset. What becomes possible?',
+            'academic': 'Does the capability view better explain sustained competitive advantage than the asset view?'
+        },
+        'financial': {
+            'skeptic': 'Banks treat core systems as proprietary assets. Fintechs treat banking as a capability to source from others. Who wins?',
+            'balanced': 'When should financial institutions build versus buy versus partner on core capabilities?',
+            'optimist': 'Open banking and composable architecture let institutions assemble capabilities at speed.',
+            'academic': 'How do different ownership models (asset-based versus capability-based) shape competitive dynamics in fintech?'
+        },
+        'retail': {
+            'skeptic': 'Retailers built proprietary POS and inventory systems. Digitally native competitors accessed these as services. Now retail is playing catch-up.',
+            'balanced': 'Should retailers own their tech stack, or build through integrations of best-of-breed capabilities?',
+            'optimist': 'Cloud-native retailers skip legacy constraints and assemble capabilities at speed.',
+            'academic': 'How do modular architecture and API-first design reshape competitive advantage in retail?'
+        },
+        'manufacturing': {
+            'skeptic': 'Manufacturers built proprietary MES and PLM systems. New entrants use cloud-based alternatives. Is ownership always a liability?',
+            'balanced': 'Where should manufacturing own deep expertise, and where should they access as a service?',
+            'optimist': 'Modular industrial software lets manufacturers focus on core engineering and operations, not IT infrastructure.',
+            'academic': 'How does the transition from asset to capability-based models affect innovation rates in industrial tech?'
+        },
+        'healthcare': {
+            'skeptic': 'Health systems invested billions in proprietary EHRs. Now they\'re trapped by lock-in. Could have been better off on cloud platforms.',
+            'balanced': 'For health systems, when is deep ownership of IT systems worth it versus accessing as capabilities?',
+            'optimist': 'Next-generation health systems are composing best-of-breed capabilities and avoiding monolithic legacy systems.',
+            'academic': 'How do organizational learning and path dependency shape health system choices between asset and capability models?'
+        }
+    },
+    'productivity-paradox': {
+        'general': {
+            'skeptic': 'Decades of IT investment, and aggregate productivity growth hasn\'t accelerated. Where\'s the payoff?',
+            'balanced': 'Is the IT productivity paradox real, or are we measuring the wrong things? What would true productivity look like?',
+            'optimist': 'AI and modern data infrastructure are finally delivering the productivity gains that PC and internet investments promised.',
+            'academic': 'What does organizational economics tell us about why IT investments often fail to deliver measurable productivity gains?'
+        },
+        'financial': {
+            'skeptic': 'Financial services have spent on IT for decades. Productivity per employee is flat or declining. Why?',
+            'balanced': 'In financial services, how much IT investment goes to keeping the lights on versus genuine productivity improvement?',
+            'optimist': 'AI in trading, risk, and operations is finally delivering genuine productivity multipliers in finance.',
+            'academic': 'How do information asymmetries and regulatory constraints shape the productivity paradox in financial services?'
+        },
+        'retail': {
+            'skeptic': 'Retail has invested massively in e-commerce and supply chain tech. Why are profit margins still compressed?',
+            'balanced': 'Is retail\'s productivity problem structural, or is IT investment being misdirected?',
+            'optimist': 'AI-driven demand forecasting and dynamic pricing are unlocking real margins improvement.',
+            'academic': 'How does competitive pressure interact with IT investment to shape industry-wide productivity in retail?'
+        },
+        'manufacturing': {
+            'skeptic': 'Smart factories promised productivity. Investments are large, but improvements are marginal. Why the gap?',
+            'balanced': 'What would genuinely transformative automation in manufacturing look like, and how far away is it?',
+            'optimist': 'Integrated AI, robotics, and data are starting to deliver the automation productivity gains manufacturing has long awaited.',
+            'academic': 'How do labor market dynamics and capital intensity shape the productivity paradox in manufacturing?'
+        },
+        'healthcare': {
+            'skeptic': 'EHR systems were supposed to improve efficiency. Clinician burnout is up, and time spent on charts is up. Did IT make things worse?',
+            'balanced': 'In healthcare, how much of IT productivity potential is captured by compliance and regulation versus clinical and operational gain?',
+            'optimist': 'Ambient documentation, AI-assisted diagnostics, and predictive analytics are finally delivering clinical productivity gains.',
+            'academic': 'What organizational and market structures in healthcare limit IT\'s ability to drive productivity and outcomes improvement?'
+        }
+    }
+};
+
+let currentState = {
+    framing: 'cost-vs-competitive',
+    industry: 'general',
+    provocateur: 'balanced'
+};
+
+function updateQuestion() {
+    const template = questionTemplates[currentState.framing][currentState.industry][currentState.provocateur];
+    document.getElementById('generated-question').textContent = template;
+}
+
+// Button event listeners
+document.querySelectorAll('.toggle-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const type = this.dataset.type;
+        const value = this.dataset.value;
+        
+        // Remove active from siblings
+        document.querySelectorAll(`.toggle-btn[data-type="${type}"]`).forEach(b => b.classList.remove('active'));
+        // Add active to clicked
+        this.classList.add('active');
+        
+        // Update state
+        currentState[type] = value;
+        updateQuestion();
+    });
+});
+
+function copyQuestion() {
+    const question = document.getElementById('generated-question').textContent;
+    navigator.clipboard.writeText(question).then(() => {
+        alert('✓ Question copied to clipboard!\n\nPaste it into Claude, Gemini, or another AI system to explore.');
+    }).catch(err => {
+        // Fallback for older browsers
+        const textarea = document.createElement('textarea');
+        textarea.value = question;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        alert('✓ Question copied to clipboard!');
+    });
+}
+
+function surpriseMe() {
+    const framingOptions = Object.keys(questionTemplates);
+    const industryOptions = Object.keys(questionTemplates['cost-vs-competitive']);
+    const provocateurOptions = ['skeptic', 'balanced', 'optimist', 'academic'];
+    
+    const newFraming = framingOptions[Math.floor(Math.random() * framingOptions.length)];
+    const newIndustry = industryOptions[Math.floor(Math.random() * industryOptions.length)];
+    const newProvocateur = provocateurOptions[Math.floor(Math.random() * provocateurOptions.length)];
+    
+    // Update button states
+    document.querySelectorAll(`.toggle-btn[data-value="${newFraming}"]`).forEach(b => b.classList.add('active'));
+    document.querySelectorAll(`.toggle-btn[data-type="framing"]`).forEach(b => {
+        if (b.dataset.value !== newFraming) b.classList.remove('active');
+    });
+    
+    document.querySelectorAll(`.toggle-btn[data-value="${newIndustry}"]`).forEach(b => b.classList.add('active'));
+    document.querySelectorAll(`.toggle-btn[data-type="industry"]`).forEach(b => {
+        if (b.dataset.value !== newIndustry) b.classList.remove('active');
+    });
+    
+    document.querySelectorAll(`.toggle-btn[data-value="${newProvocateur}"]`).forEach(b => b.classList.add('active'));
+    document.querySelectorAll(`.toggle-btn[data-type="provocateur"]`).forEach(b => {
+        if (b.dataset.value !== newProvocateur) b.classList.remove('active');
+    });
+    
+    // Update state and question
+    currentState = { framing: newFraming, industry: newIndustry, provocateur: newProvocateur };
+    updateQuestion();
+}
+
+function goBackToCanvas() {
+    // If it was opened from Canvas, go back
+    if (document.referrer.includes('canvas')) {
+        window.history.back();
+    } else {
+        alert('This launcher is typically accessed from your Canvas course page. You can close this window and return to Canvas.');
+    }
+}
+
+// Initialize on load
+updateQuestion();
+</script>
+
+</body>
+</html>
 
