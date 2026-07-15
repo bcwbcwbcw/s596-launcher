@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S596 Week 6: The Project Pre-Mortem</title>
+<style>
+  :root {
+    --kelley-red: #990000;
+    --near-black: #212121;
+    --dark-slate: #36454F;
+    --tint: #FAF1F1;
+    --border: #d9d2d2;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Calibri, Carlito, "Segoe UI", Arial, sans-serif;
+    color: var(--near-black);
+    background: #ffffff;
+    padding: 24px 20px 40px;
+    max-width: 860px;
+    margin: 0 auto;
+    line-height: 1.4;
+  }
+  .eyebrow {
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dark-slate);
+    margin-bottom: 6px;
+  }
+  h1 {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--kelley-red);
+    margin-bottom: 10px;
+  }
+  .intro {
+    font-size: 17px;
+    margin-bottom: 26px;
+    max-width: 700px;
+  }
+  .step {
+    margin-bottom: 26px;
+  }
+  .step-label {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--near-black);
+    margin-bottom: 4px;
+  }
+  .step-label .step-num {
+    display: inline-block;
+    background: var(--kelley-red);
+    color: #fff;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    font-size: 13px;
+    margin-right: 8px;
+  }
+  .step-hint {
+    font-size: 14px;
+    color: var(--dark-slate);
+    margin-bottom: 10px;
+  }
+  .options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+  }
+  .options.theories {
+    grid-template-columns: 1fr;
+  }
+  button.option {
+    font-family: inherit;
+    font-size: 15px;
+    text-align: left;
+    padding: 12px 14px;
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--near-black);
+    transition: border-color 0.15s, background 0.15s;
+  }
+  button.option:hover { border-color: var(--kelley-red); }
+  button.option:focus-visible { outline: 3px solid var(--kelley-red); outline-offset: 2px; }
+  button.option.selected {
+    border-color: var(--kelley-red);
+    background: var(--tint);
+    box-shadow: inset 3px 0 0 var(--kelley-red);
+  }
+  button.option .opt-title { font-weight: 700; display: block; }
+  button.option .opt-gloss {
+    display: block;
+    font-size: 13.5px;
+    color: var(--dark-slate);
+    margin-top: 3px;
+  }
+  .markus-note {
+    font-size: 13px;
+    color: var(--dark-slate);
+    margin-top: 8px;
+    font-style: italic;
+  }
+  .preview-wrap { margin-top: 30px; }
+  .preview-label {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .preview {
+    background: var(--tint);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--kelley-red);
+    border-radius: 6px;
+    padding: 18px 20px;
+    font-size: 15px;
+    white-space: pre-wrap;
+    min-height: 120px;
+    color: var(--near-black);
+  }
+  .preview.placeholder {
+    color: var(--dark-slate);
+    font-style: italic;
+  }
+  .actions {
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  #copyBtn {
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    background: var(--kelley-red);
+    border: none;
+    border-radius: 8px;
+    padding: 12px 22px;
+    cursor: pointer;
+  }
+  #copyBtn:disabled {
+    background: #b8a8a8;
+    cursor: not-allowed;
+  }
+  #copyBtn:focus-visible { outline: 3px solid var(--near-black); outline-offset: 2px; }
+  #copyStatus {
+    font-size: 14px;
+    color: var(--dark-slate);
+    min-height: 18px;
+  }
+  .launch-label {
+    font-size: 14px;
+    color: var(--dark-slate);
+  }
+  button.launch {
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--kelley-red);
+    background: #fff;
+    border: 1.5px solid var(--kelley-red);
+    border-radius: 8px;
+    padding: 10px 18px;
+    cursor: pointer;
+  }
+  button.launch:hover { background: var(--tint); }
+  button.launch:focus-visible { outline: 3px solid var(--near-black); outline-offset: 2px; }
+  button.launch:disabled {
+    color: #b8a8a8;
+    border-color: #b8a8a8;
+    cursor: not-allowed;
+    background: #fff;
+  }
+  .footer-note {
+    margin-top: 22px;
+    font-size: 14px;
+    color: var(--dark-slate);
+    max-width: 700px;
+  }
+  @media (max-width: 560px) {
+    h1 { font-size: 24px; }
+    .options { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="eyebrow">S596 &middot; Week 6 &middot; Before Class</div>
+<h1>The Project Pre-Mortem</h1>
+<p class="intro">It is twelve months from now, and the AI project you worked so hard to scope, staff, and fund is dead. Your job: figure out why <em>before</em> it happens. Choose one option in each step below, then copy the assembled prompt into the AI of your choice.</p>
+
+<div class="step">
+  <div class="step-label"><span class="step-num">1</span>Who killed it?</div>
+  <div class="step-hint">The source of the fatal blocker.</div>
+  <div class="options" id="sourceOpts">
+    <button class="option" data-value="legal and compliance review"><span class="opt-title">Legal &amp; Compliance</span><span class="opt-gloss">Privacy, IP, regulatory exposure, contract review</span></button>
+    <button class="option" data-value="the technical build itself (data quality, integration, reliability, or scale)"><span class="opt-title">The Technical Build</span><span class="opt-gloss">Data, integration, reliability, or scale</span></button>
+    <button class="option" data-value="the frontline end users whose daily work the system changed"><span class="opt-title">The Frontline End Users</span><span class="opt-gloss">The people whose daily work the system changed</span></button>
+    <button class="option" data-value="a rival division or function whose cooperation the project needed"><span class="opt-title">A Rival Division or Function</span><span class="opt-gloss">Cross-functional or cross-division friction in a large firm</span></button>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-label"><span class="step-num">2</span>When did it die?</div>
+  <div class="step-hint">The stage where the project failed.</div>
+  <div class="options" id="stageOpts">
+    <button class="option" data-value="never made it out of the approval process"><span class="opt-title">Never Approved</span><span class="opt-gloss">Died in scoping or funding review</span></button>
+    <button class="option" data-value="was approved and built, but died during the pilot"><span class="opt-title">Died in Pilot</span><span class="opt-gloss">The build worked; the pilot did not</span></button>
+    <button class="option" data-value="launched on schedule, but almost nobody used it"><span class="opt-title">Launched, Nobody Used It</span><span class="opt-gloss">A go-live without adoption</span></button>
+    <button class="option" data-value="was adopted at first, then quietly abandoned within months"><span class="opt-title">Used Briefly, Then Abandoned</span><span class="opt-gloss">Early usage that faded away</span></button>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-label"><span class="step-num">3</span>Why did it really die?</div>
+  <div class="step-hint">Choose the underlying theory of the failure.</div>
+  <div class="options theories" id="theoryOpts">
+    <button class="option" data-value="the system itself was the problem: poor design, poor fit with the work, or unreliable performance"><span class="opt-title">The system was the problem</span><span class="opt-gloss">Poor design, poor fit with the work, or unreliable performance. People resisted a bad system.</span></button>
+    <button class="option" data-value="the people were the problem: habit, fear, or resistance that would have met even a well-built system"><span class="opt-title">The people were the problem</span><span class="opt-gloss">Habit, fear, or resistance that even a well-built system would have met.</span></button>
+    <button class="option" data-value="the interaction was the problem: the system shifted power, visibility, or control over information, and those who lost ground pushed back"><span class="opt-title">The interaction was the problem</span><span class="opt-gloss">The system shifted power, visibility, or control over information, and those who lost ground pushed back.</span></button>
+  </div>
+  <div class="markus-note">Three theories of resistance from Markus (1983), &ldquo;Power, Politics, and MIS Implementation.&rdquo; See this week&rsquo;s Supplemental Reading.</div>
+</div>
+
+<div class="preview-wrap">
+  <div class="preview-label">Your assembled prompt</div>
+  <div class="preview placeholder" id="preview">Make a selection in each of the three steps above to assemble your prompt.</div>
+  <div class="actions">
+    <button id="copyBtn" disabled>Copy prompt</button>
+    <span class="launch-label">or copy and open in:</span>
+    <button class="launch" data-url="https://chatgpt.com/" disabled>ChatGPT</button>
+    <button class="launch" data-url="https://claude.ai/new" disabled>Claude</button>
+    <button class="launch" data-url="https://gemini.google.com/app" disabled>Gemini</button>
+  </div>
+  <div class="actions"><span id="copyStatus"></span></div>
+</div>
+
+<p class="footer-note">Each AI button copies the prompt to your clipboard and opens that AI in a new tab; paste the prompt and send it. The AI will begin by asking you to describe your project: a few sentences on the business goals, the target audience, and the organization&rsquo;s context. Use the domain project you have carried since Week 3, or one from the popular press. As always, evaluate the AI&rsquo;s answers critically: which parts of the post-mortem ring true from your own experience, and which feel like fiction? Bring your sharpest inoculation to class.</p>
+
+<script>
+(function () {
+  var selections = { source: null, stage: null, theory: null };
+  var groups = [
+    { id: "sourceOpts", key: "source" },
+    { id: "stageOpts", key: "stage" },
+    { id: "theoryOpts", key: "theory" }
+  ];
+
+  groups.forEach(function (g) {
+    var container = document.getElementById(g.id);
+    Array.prototype.forEach.call(container.querySelectorAll("button.option"), function (btn) {
+      btn.addEventListener("click", function () {
+        Array.prototype.forEach.call(container.querySelectorAll("button.option"), function (b) {
+          b.classList.remove("selected");
+        });
+        btn.classList.add("selected");
+        selections[g.key] = btn.getAttribute("data-value");
+        updatePreview();
+      });
+    });
+  });
+
+  function buildPrompt() {
+    return "You are helping me run a pre-mortem on an AI project. It is twelve months from now, and the project " + selections.stage + ". The fatal blocker came from " + selections.source + ". The underlying cause follows the theory that " + selections.theory + " (Markus, 1983).\n\n" +
+      "Start by asking me this one question, then wait for my answer: \"Tell me about your planned implementation project that I should analyze. Just a few sentences will be fine, but tell me the business goals, target audience, and any useful context for the organization.\"\n\n" +
+      "After I answer, do the following.\n\n" +
+      "First, write a short, specific failure post-mortem (about 250 words): how the failure unfolded, the moment it became visible, and the early warning signs that were missed along the way.\n\n" +
+      "Second, list 3 to 5 inoculations: specific actions that, taken earlier or done better, would most likely have prevented this failure. For each one, name the project stage where it belongs (scoping, build and pilot, rollout, or post-launch adoption).\n\n" +
+      "Close with the one question the implementation leader should have asked on day one.";
+  }
+
+  function updatePreview() {
+    var preview = document.getElementById("preview");
+    var copyBtn = document.getElementById("copyBtn");
+    if (selections.source && selections.stage && selections.theory) {
+      preview.textContent = buildPrompt();
+      preview.classList.remove("placeholder");
+      copyBtn.disabled = false;
+      Array.prototype.forEach.call(document.querySelectorAll("button.launch"), function (b) {
+        b.disabled = false;
+      });
+    }
+    document.getElementById("copyStatus").textContent = "";
+  }
+
+  function copyPrompt(done, fail) {
+    var text = buildPrompt();
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, fail);
+    } else {
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand("copy"); done(); } catch (e) { fail(); }
+      document.body.removeChild(ta);
+    }
+  }
+
+  document.getElementById("copyBtn").addEventListener("click", function () {
+    var status = document.getElementById("copyStatus");
+    copyPrompt(
+      function () { status.textContent = "Copied. Paste it into the AI of your choice."; },
+      function () { status.textContent = "Copy failed. Select the prompt text above and copy it manually."; }
+    );
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll("button.launch"), function (btn) {
+    btn.addEventListener("click", function () {
+      var url = btn.getAttribute("data-url");
+      var status = document.getElementById("copyStatus");
+      copyPrompt(
+        function () {
+          status.textContent = "Prompt copied. Paste it into the new tab and send.";
+          window.open(url, "_blank", "noopener");
+        },
+        function () {
+          status.textContent = "Copy failed. Use the Copy prompt button, then open the AI manually.";
+          window.open(url, "_blank", "noopener");
+        }
+      );
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
