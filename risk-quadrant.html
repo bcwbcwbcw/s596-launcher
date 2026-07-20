@@ -286,6 +286,27 @@
     margin-bottom: 12px;
   }
   .carry p:last-child { margin-bottom: 0; }
+  .moves {
+    margin-bottom: 22px;
+    max-width: 760px;
+  }
+  .moves .move {
+    display: grid;
+    grid-template-columns: 168px 1fr;
+    gap: 14px;
+    padding: 9px 0;
+    border-top: 1px solid var(--border);
+    font-size: 15.5px;
+    line-height: 1.5;
+  }
+  .moves .move:last-child { border-bottom: 1px solid var(--border); }
+  .moves .move b { font-weight: 700; }
+  .moves .m-save b, .moves .m-tension b { color: var(--teal-line); }
+  .moves .m-collision b { color: var(--amber-line); }
+  .moves .m-blind b { color: var(--red-line); }
+  @media (max-width: 620px) {
+    .moves .move { grid-template-columns: 1fr; gap: 2px; }
+  }
 
   @media (max-width: 620px) {
     h1 { font-size: 24px; }
@@ -397,6 +418,13 @@
     <p><strong>Does the proposal name its own risks first?</strong> A responsible innovator arrives having already done the reviewer&rsquo;s first pass.</p>
     <p><strong>Can the risk gatekeepers name a mechanism to address a risk, or only cite a category?</strong> A Current objection describes a path by which harm occurs. A Stale one names a technology and stops.</p>
     <p><strong>And one thing to notice.</strong> How often the condition attached to a &ldquo;yes, if&rdquo; turns out to describe a capability the organization has not built yet.</p>
+  </div>
+  <h3>What each quadrant asks of you</h3>
+  <div class="moves">
+    <div class="move m-save"><b>The save</b><span>Hold the no, and thank the person who caught it.</span></div>
+    <div class="move m-tension"><b>Productive tension</b><span>Negotiate the conditions, and notice which ones are really capabilities to build.</span></div>
+    <div class="move m-collision"><b>The collision</b><span>Escalate on the mechanism, not on authority. Ask what specific harm the policy was written to prevent.</span></div>
+    <div class="move m-blind"><b>The blind spot</b><span>Nobody is watching the real exposure. Name it out loud before anything ships.</span></div>
   </div>
   <div class="actions">
     <button class="ghost" id="restart">Run it again</button>
