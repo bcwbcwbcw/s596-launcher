@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S596 Cartoons: Gatekeepers, Innovators, Mitigators</title>
+<style>
+  :root {
+    --kelley-red: #990000;
+    --near-black: #212121;
+    --dark-slate: #36454F;
+    --tint: #FAF1F1;
+    --border: #d9d2d2;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: Calibri, Carlito, "Segoe UI", Arial, sans-serif;
+    color: var(--near-black);
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 20px 20px;
+    line-height: 1.45;
+  }
+  header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    border-bottom: 2px solid var(--kelley-red);
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    flex: none;
+  }
+  h1 { font-size: 22px; font-weight: 700; color: var(--kelley-red); }
+  .count { font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dark-slate); }
+  .stage {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+  }
+  .slide { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .slide[hidden] { display: none; }
+  .slide img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border: 1px solid var(--border);
+    cursor: zoom-in;
+  }
+  body.actual .stage { align-items: flex-start; }
+  body.actual .slide { height: auto; }
+  body.actual .slide img { max-width: none; max-height: none; cursor: zoom-out; }
+  figcaption { flex: none; width: 100%; max-width: 900px; margin-top: 10px; }
+  details { font-size: 14px; color: var(--dark-slate); }
+  summary { cursor: pointer; font-weight: 700; color: var(--kelley-red); padding: 4px 0; }
+  details ol { margin: 8px 0 0 22px; }
+  details li { margin-bottom: 8px; line-height: 1.5; }
+  .controls {
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+  button {
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--kelley-red);
+    background: #fff;
+    border: 1.5px solid var(--kelley-red);
+    border-radius: 8px;
+    padding: 9px 16px;
+    cursor: pointer;
+  }
+  button:hover { background: var(--tint); }
+  button:focus-visible { outline: 3px solid var(--near-black); outline-offset: 2px; }
+  button[disabled] { color: #b8a8a8; border-color: #b8a8a8; cursor: not-allowed; background: #fff; }
+  .dots { display: flex; gap: 8px; margin-left: auto; }
+  .dot {
+    width: 13px; height: 13px; padding: 0; border-radius: 50%;
+    border: 1.5px solid var(--kelley-red); background: #fff;
+  }
+  .dot[aria-current="true"] { background: var(--kelley-red); }
+  .hint { font-size: 13px; color: var(--dark-slate); }
+  .credit { font-size: 12.5px; color: var(--dark-slate); margin-top: 8px; flex: none; }
+  @media (max-width: 620px) {
+    h1 { font-size: 18px; }
+    .hint { display: none; }
+    body { padding: 12px 12px 14px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1 id="title">The Gatekeepers</h1>
+  <span class="count">Cartoon <span id="idx">1</span> of 3</span>
+</header>
+
+<div class="stage" id="stage" aria-live="polite">
+<figure class="slide" id="s0" >
+  <img src="gatekeepers.webp" width="1492" height="1054" alt="Nine-panel black-and-white cartoon titled “The Gatekeepers.” In each panel an IT authority figure from a different era rejects the newest technology — mainframes over PCs, locked-down LANs, no wireless, no personal devices, no cloud, AI dismissed as a fad — and a final panel asks what all that control actually achieved.">
+  <figcaption>
+    <details>
+      <summary>Text description of all panels</summary>
+      <ol><li>Late 1970s. A VP of Computing leans back beside an early desktop computer under a sign reading “There is no substitute for size.” Caption: “We don’t need PCs because the mainframe can do those things and we are working on them.”</li><li>1980s. A man raises a finger in front of towering reel-to-reel tape drives. Caption: “PCs are fine for individual tasks, like spreadsheets, but they really can’t be trusted with security for corporate data.”</li><li>1990s. An IT worker stands tangled in a wall of cables beneath an “Ethernet” sign. Caption: “Local area networks are OK, but they need to be carefully locked down, and no way would Wi-Fi ever be allowed with corporate data.”</li><li>Early 2000s. A grinning executive holds up a mobile phone beside a crossed-out “BYOD” sign. Caption: “Personal mobile devices are an extraordinary risk and could never be allowed to touch corporate data.”</li><li>2010s. A sweating man clutches a cloud labeled “Private Cloud” before a whiteboard reading “Cloud strategy: security? compliance? control? ???” Caption: “We can’t trust putting our critical data and systems in the cloud outside of our control.”</li><li>Early 2020s. A man raises a palm to refuse a glowing “AI” orb, beside a poster reading “Second Life is the future.” Caption: “Machine learning and AI are a fad that will pass like Second Life.”</li><li>Near present. Two men present a padlocked crate labeled “Vendor our AI solution,” with a small box labeled “Stupid AI” beside it. Caption: “We think AI is great. We have licensed a controllable cloud platform that guarantees our AI solution is safe and contained, so no matter how basic it is, it is within our control.”</li><li>Present day. A man braces against heavy doors as liquid labeled “APIs” and “AI” seeps through. Caption: “APIs have to be carefully controlled and not touched by uncontrollable AI.”</li><li>Future. A classical statue with a robotic arm reads a newspaper headlined “The Gatekeepers.” Caption: “Wait, so they finally thought they achieved total control... by making it too basic to ever evolve?”</li></ol>
+    </details>
+  </figcaption>
+</figure>
+<figure class="slide" id="s1" hidden>
+  <img src="lets-keep-going.webp" width="1448" height="1086" alt="Four-panel black-and-white cartoon titled “Let’s Keep Going!” showing the costs of moving too fast: a rushed go-live that halts shipping for three weeks, a skipped security review that loses forty million records, an AI that invents a refund policy a court then enforces, and a CEO explaining it all under oath.">
+  <figcaption>
+    <details>
+      <summary>Text description of all panels</summary>
+      <ol><li>The rushed go-live. A beaming executive cuts a ribbon at a machine labeled “New System” while behind him a warehouse descends into chaos, parcels and paper flying, a sign reading “Orders backlog 9999+” and a worker collapsed on the floor. Caption: “We launched on schedule. Shipping stopped for three weeks.”</li><li>The skipped review. Executives toast with champagne beneath a sign reading “Security review: postponed,” while behind them a hooded figure wheels a crate marked “Customer data” out of an open vault. Caption: “The review was slowing us down, so we skipped it. Forty million records walked out.”</li><li>The clever shortcut. A smiling robot labeled “Helpful Bot” hands over a certificate reading “Full refund, forever” to a delighted manager, while a legal officer clutches their head holding papers marked “Legal implications!!!” Caption: “The AI made up its own policy. The court said we had to honor it.”</li><li>The hearing. A sweating CEO grips a “Prepared statement (read carefully)” behind a bank of news microphones, with a stern panel seated above and behind. Caption: “Moving fast is thrilling right up until you explain it under oath.”</li></ol>
+    </details>
+  </figcaption>
+</figure>
+<figure class="slide" id="s2" hidden>
+  <img src="risk-mitigators.webp" width="2172" height="724" alt="Three-panel black-and-white cartoon titled “The Essential Risk Mitigators.” A risk officer approves a project with added conditions, quietly closes a valve on a flaw nobody will ever hear about, and gestures at a blackboard reading “Disasters: 1” beside “Disasters prevented: ?” — the column nobody ever sees.">
+  <figcaption>
+    <details>
+      <summary>Text description of all panels</summary>
+      <ol><li>Yes with qualifiers. A risk officer speaks with an open hand to colleagues around a data council table. A wall list reads “Transparency, Accountability, Balance, Oversight,” a desk card shows a risk review checklist with benefits, risks, controls and monitoring all ticked, and a mug reads “Good decisions require good data.” Caption: “I understand the goals and the risks, and with these few extra steps, we can move this forward.”</li><li>The save nobody saw. Late at night the same risk officer closes a valve on a pipe labeled “Flaw” that is spraying water. A newspaper on the desk reads “Nothing happened today,” a mug reads “No glory,” a binder reads “Control evidence log,” and a sign reads “Controls aren’t sexy. They’re essential.” Caption: “The controls catch a disaster like this every week. No one throws a parade.”</li><li>The scoreboard. The risk officer gestures with both hands at a blackboard divided in two: “Disasters: 1” with a single tally mark, and “Disasters prevented:” followed by a large question mark. Caption: “You only ever get to see one column.”</li></ol>
+    </details>
+  </figcaption>
+</figure>
+</div>
+
+<div class="controls">
+  <button id="prev" disabled>&larr; Previous</button>
+  <button id="next">Next &rarr;</button>
+  <button id="zoom">View actual size</button>
+  <span class="hint">Arrow keys also work. Click the image to zoom.</span>
+  <div class="dots" role="group" aria-label="Choose cartoon"><button class="dot" data-go="0" aria-label="Go to The Gatekeepers" aria-current="true"></button><button class="dot" data-go="1" aria-label="Go to Let’s Keep Going!"></button><button class="dot" data-go="2" aria-label="Go to The Essential Risk Mitigators"></button></div>
+</div>
+
+<p class="credit">Samtani, Wheeler, &amp; AI &middot; CC BY. Close this tab to return to Canvas.</p>
+
+<script>
+(function () {
+  var data = [{"slug": "gatekeepers", "title": "The Gatekeepers", "alt": "Nine-panel black-and-white cartoon titled “The Gatekeepers.” In each panel an IT authority figure from a different era rejects the newest technology — mainframes over PCs, locked-down LANs, no wireless, no personal devices, no cloud, AI dismissed as a fad — and a final panel asks what all that control actually achieved.", "panels": ["Panel 1 - Late 1970s. A VP of Computing leans back beside an early desktop computer under a sign reading “There is no substitute for size.” Caption: “We don’t need PCs because the mainframe can do those things and we are working on them.”", "Panel 2 - 1980s. A man raises a finger in front of towering reel-to-reel tape drives. Caption: “PCs are fine for individual tasks, like spreadsheets, but they really can’t be trusted with security for corporate data.”", "Panel 3 - 1990s. An IT worker stands tangled in a wall of cables beneath an “Ethernet” sign. Caption: “Local area networks are OK, but they need to be carefully locked down, and no way would Wi-Fi ever be allowed with corporate data.”", "Panel 4 - Early 2000s. A grinning executive holds up a mobile phone beside a crossed-out “BYOD” sign. Caption: “Personal mobile devices are an extraordinary risk and could never be allowed to touch corporate data.”", "Panel 5 - 2010s. A sweating man clutches a cloud labeled “Private Cloud” before a whiteboard reading “Cloud strategy: security? compliance? control? ???” Caption: “We can’t trust putting our critical data and systems in the cloud outside of our control.”", "Panel 6 - Early 2020s. A man raises a palm to refuse a glowing “AI” orb, beside a poster reading “Second Life is the future.” Caption: “Machine learning and AI are a fad that will pass like Second Life.”", "Panel 7 - Near present. Two men present a padlocked crate labeled “Vendor our AI solution,” with a small box labeled “Stupid AI” beside it. Caption: “We think AI is great. We have licensed a controllable cloud platform that guarantees our AI solution is safe and contained, so no matter how basic it is, it is within our control.”", "Panel 8 - Present day. A man braces against heavy doors as liquid labeled “APIs” and “AI” seeps through. Caption: “APIs have to be carefully controlled and not touched by uncontrollable AI.”", "Panel 9 - Future. A classical statue with a robotic arm reads a newspaper headlined “The Gatekeepers.” Caption: “Wait, so they finally thought they achieved total control... by making it too basic to ever evolve?”"], "w": 1492, "h": 1054, "author": "Samtani, Wheeler, & AI"}, {"slug": "lets-keep-going", "title": "Let’s Keep Going!", "alt": "Four-panel black-and-white cartoon titled “Let’s Keep Going!” showing the costs of moving too fast: a rushed go-live that halts shipping for three weeks, a skipped security review that loses forty million records, an AI that invents a refund policy a court then enforces, and a CEO explaining it all under oath.", "panels": ["Panel 1 - The rushed go-live. A beaming executive cuts a ribbon at a machine labeled “New System” while behind him a warehouse descends into chaos, parcels and paper flying, a sign reading “Orders backlog 9999+” and a worker collapsed on the floor. Caption: “We launched on schedule. Shipping stopped for three weeks.”", "Panel 2 - The skipped review. Executives toast with champagne beneath a sign reading “Security review: postponed,” while behind them a hooded figure wheels a crate marked “Customer data” out of an open vault. Caption: “The review was slowing us down, so we skipped it. Forty million records walked out.”", "Panel 3 - The clever shortcut. A smiling robot labeled “Helpful Bot” hands over a certificate reading “Full refund, forever” to a delighted manager, while a legal officer clutches their head holding papers marked “Legal implications!!!” Caption: “The AI made up its own policy. The court said we had to honor it.”", "Panel 4 - The hearing. A sweating CEO grips a “Prepared statement (read carefully)” behind a bank of news microphones, with a stern panel seated above and behind. Caption: “Moving fast is thrilling right up until you explain it under oath.”"], "w": 1448, "h": 1086, "author": "Samtani, Wheeler, & AI"}, {"slug": "risk-mitigators", "title": "The Essential Risk Mitigators", "alt": "Three-panel black-and-white cartoon titled “The Essential Risk Mitigators.” A risk officer approves a project with added conditions, quietly closes a valve on a flaw nobody will ever hear about, and gestures at a blackboard reading “Disasters: 1” beside “Disasters prevented: ?” — the column nobody ever sees.", "panels": ["Panel 1 - Yes with qualifiers. A risk officer speaks with an open hand to colleagues around a data council table. A wall list reads “Transparency, Accountability, Balance, Oversight,” a desk card shows a risk review checklist with benefits, risks, controls and monitoring all ticked, and a mug reads “Good decisions require good data.” Caption: “I understand the goals and the risks, and with these few extra steps, we can move this forward.”", "Panel 2 - The save nobody saw. Late at night the same risk officer closes a valve on a pipe labeled “Flaw” that is spraying water. A newspaper on the desk reads “Nothing happened today,” a mug reads “No glory,” a binder reads “Control evidence log,” and a sign reads “Controls aren’t sexy. They’re essential.” Caption: “The controls catch a disaster like this every week. No one throws a parade.”", "Panel 3 - The scoreboard. The risk officer gestures with both hands at a blackboard divided in two: “Disasters: 1” with a single tally mark, and “Disasters prevented:” followed by a large question mark. Caption: “You only ever get to see one column.”"], "w": 2172, "h": 724, "author": "Samtani, Wheeler, & AI"}];
+  var i = 0, n = data.length;
+  var $ = function (id) { return document.getElementById(id); };
+  var slides = document.querySelectorAll(".slide");
+  var dots = document.querySelectorAll(".dot");
+
+  function show(k) {
+    i = Math.max(0, Math.min(n - 1, k));
+    for (var j = 0; j < n; j++) {
+      slides[j].hidden = (j !== i);
+      dots[j].setAttribute("aria-current", j === i ? "true" : "false");
+    }
+    $("title").textContent = data[i].title;
+    $("idx").textContent = i + 1;
+    $("prev").disabled = (i === 0);
+    $("next").disabled = (i === n - 1);
+    document.body.classList.remove("actual");
+    $("zoom").textContent = "View actual size";
+    $("stage").scrollTop = 0;
+    $("stage").scrollLeft = 0;
+  }
+
+  $("prev").addEventListener("click", function () { show(i - 1); });
+  $("next").addEventListener("click", function () { show(i + 1); });
+  Array.prototype.forEach.call(dots, function (d) {
+    d.addEventListener("click", function () { show(parseInt(d.getAttribute("data-go"), 10)); });
+  });
+
+  function toggleZoom() {
+    var on = document.body.classList.toggle("actual");
+    $("zoom").textContent = on ? "Fit to window" : "View actual size";
+  }
+  $("zoom").addEventListener("click", toggleZoom);
+  Array.prototype.forEach.call(document.querySelectorAll(".slide img"), function (img) {
+    img.addEventListener("click", toggleZoom);
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.target.tagName === "SUMMARY") return;
+    if (e.key === "ArrowRight") { show(i + 1); }
+    else if (e.key === "ArrowLeft") { show(i - 1); }
+  });
+
+  show(0);
+})();
+</script>
+
+</body>
+</html>
