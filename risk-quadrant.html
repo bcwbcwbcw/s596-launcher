@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reckless, Responsible, Stale, Current</title>
+<style>
+  :root {
+    --kelley-red: #990000;
+    --near-black: #212121;
+    --dark-slate: #36454F;
+    --tint: #FAF1F1;
+    --border: #d9d2d2;
+    --axis: #212121;
+    --teal-line: #0F6E56;
+    --teal-tint: #E9F4F0;
+    --amber-line: #854F0B;
+    --amber-tint: #FBF2E4;
+    --red-line: #A32D2D;
+    --red-tint: #FBECEC;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Calibri, Carlito, "Segoe UI", Arial, sans-serif;
+    color: var(--near-black);
+    background: #ffffff;
+    padding: 28px 20px 48px;
+    max-width: 860px;
+    margin: 0 auto;
+    line-height: 1.45;
+  }
+  h1 {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--kelley-red);
+    margin-bottom: 12px;
+  }
+  .intro {
+    font-size: 17px;
+    margin-bottom: 8px;
+    max-width: 720px;
+  }
+  .intro + .intro { margin-bottom: 30px; }
+
+  .matrix-wrap { margin-bottom: 32px; }
+  .matrix-body { display: flex; gap: 10px; }
+  .y-title {
+    flex: none;
+    width: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .y-title span {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--near-black);
+    white-space: nowrap;
+  }
+  .y-poles {
+    flex: none;
+    width: 46px;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    row-gap: 10px;
+    border-right: 3px solid var(--axis);
+    padding-right: 10px;
+  }
+  .pole-v {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    text-align: center;
+  }
+  .pole-v b {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--near-black);
+  }
+  .pole-v i {
+    font-style: normal;
+    font-size: 12.5px;
+    color: var(--dark-slate);
+    margin-top: 3px;
+  }
+  .grid4 {
+    flex: 1;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px;
+  }
+  .cell {
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    min-height: 116px;
+    background: #fff;
+    transition: opacity 0.18s, border-color 0.18s, background 0.18s;
+  }
+  .cell .cell-name { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+  .cell .cell-gloss { font-size: 13.5px; line-height: 1.5; color: var(--dark-slate); }
+  .cell.q-save .cell-name, .cell.q-tension .cell-name { color: var(--teal-line); }
+  .cell.q-collision .cell-name { color: var(--amber-line); }
+  .cell.q-blind .cell-name { color: var(--red-line); }
+  .cell.dim { opacity: 0.3; }
+  .cell.live.q-save, .cell.live.q-tension { border-color: var(--teal-line); background: var(--teal-tint); }
+  .cell.live.q-collision { border-color: var(--amber-line); background: var(--amber-tint); }
+  .cell.live.q-blind { border-color: var(--red-line); background: var(--red-tint); }
+
+  .x-foot { padding-left: 92px; }
+  .x-axis {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    border-top: 3px solid var(--axis);
+    margin-top: 10px;
+    padding-top: 8px;
+    text-align: center;
+  }
+  .x-axis b { display: block; font-size: 15px; font-weight: 700; }
+  .x-axis i { font-style: normal; font-size: 12.5px; color: var(--dark-slate); }
+  .x-title {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--near-black);
+    margin-top: 10px;
+  }
+
+  .item-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+  }
+  .counter {
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dark-slate);
+  }
+  .tag { font-size: 13px; color: var(--dark-slate); font-style: italic; }
+  .card {
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--kelley-red);
+    background: var(--tint);
+    padding: 16px 18px;
+    margin-bottom: 22px;
+  }
+  .card .label {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--dark-slate);
+    margin-bottom: 5px;
+  }
+  .card p { font-size: 15.5px; line-height: 1.55; }
+  .card .divider { border-top: 1px solid var(--border); margin: 14px 0; }
+
+  .choices {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+    margin-bottom: 22px;
+  }
+  .choice-label {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--near-black);
+    margin-bottom: 8px;
+  }
+  .btn-row { display: flex; gap: 8px; }
+  button.pick {
+    flex: 1;
+    font-family: inherit;
+    font-size: 15px;
+    padding: 11px 10px;
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--near-black);
+    transition: border-color 0.15s, background 0.15s;
+  }
+  button.pick:hover { border-color: var(--kelley-red); }
+  button.pick:focus-visible { outline: 3px solid var(--kelley-red); outline-offset: 2px; }
+  button.pick[aria-pressed="true"] {
+    border-color: var(--kelley-red);
+    background: var(--tint);
+    font-weight: 700;
+  }
+  .pick-hint { font-size: 12.5px; color: var(--dark-slate); margin-top: 6px; }
+
+  .reveal {
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--dark-slate);
+    background: #fafafa;
+    padding: 16px 18px;
+    margin-bottom: 20px;
+  }
+  .reveal .verdict {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    color: var(--dark-slate);
+  }
+  .reveal .verdict strong { color: var(--near-black); }
+  .reveal p { font-size: 15px; line-height: 1.55; margin-bottom: 10px; }
+  .reveal p:last-child { margin-bottom: 0; }
+  .reveal .tell-lead { color: var(--dark-slate); }
+  .contested {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background: var(--amber-tint);
+    color: var(--amber-line);
+    border: 1px solid var(--amber-line);
+    padding: 2px 8px;
+    margin-bottom: 10px;
+  }
+
+  .actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  button.primary {
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    background: var(--kelley-red);
+    border: none;
+    border-radius: 8px;
+    padding: 12px 22px;
+    cursor: pointer;
+  }
+  button.primary:focus-visible { outline: 3px solid var(--near-black); outline-offset: 2px; }
+  button.ghost {
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--kelley-red);
+    background: #fff;
+    border: 1.5px solid var(--kelley-red);
+    border-radius: 8px;
+    padding: 10px 18px;
+    cursor: pointer;
+  }
+  button.ghost:hover { background: var(--tint); }
+  button.ghost:focus-visible { outline: 3px solid var(--near-black); outline-offset: 2px; }
+  .status { font-size: 14px; color: var(--dark-slate); min-height: 18px; }
+
+  .closing { display: none; }
+  .closing h2 { font-size: 24px; color: var(--kelley-red); margin: 6px 0 12px; }
+  .closing p {
+    font-size: 17px;
+    line-height: 1.55;
+    margin-bottom: 22px;
+    max-width: 720px;
+  }
+
+  @media (max-width: 620px) {
+    h1 { font-size: 24px; }
+    .matrix-body { gap: 6px; }
+    .y-title { width: 20px; }
+    .y-poles { width: 32px; padding-right: 6px; }
+    .x-foot { padding-left: 64px; }
+    .pole-v b { font-size: 13px; }
+    .pole-v i { display: none; }
+    .cell { min-height: 0; padding: 10px; }
+    .cell .cell-gloss { font-size: 12.5px; }
+    .x-axis b { font-size: 13px; }
+    .x-axis i { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Reckless or responsible? Stale or current?</h1>
+<p class="intro">Every AI project in a large organization needs people to say yes &mdash; often people who did not ask for the project and cannot yet evaluate it. Two voices might say no, and they sound almost identical.</p>
+<p class="intro">One is naming a real hazard. The other is asking a question from a risk framing of years ago as they have not caught up with technology advances. Seven exchanges follow. For each, make two calls: was the <strong>proposal</strong> reckless or responsible, and was the <strong>response</strong> stale or current? The matrix stays with you.</p>
+
+<div class="matrix-wrap">
+  <div class="matrix-body">
+    <div class="y-title"><span>Risk mitigation framing</span></div>
+    <div class="y-poles">
+      <div class="pole-v"><b>Current</b><i>names a mechanism</i></div>
+      <div class="pole-v"><b>Stale</b><i>names a category</i></div>
+    </div>
+    <div class="grid4">
+      <div class="cell q-save" data-p="reckless" data-r="current">
+        <div class="cell-name">The save</div>
+        <div class="cell-gloss">A real hazard, caught. The system worked, and nobody will ever know.</div>
+      </div>
+      <div class="cell q-tension" data-p="responsible" data-r="current">
+        <div class="cell-name">Productive tension</div>
+        <div class="cell-gloss">&ldquo;Yes, if.&rdquo; Conditions are real, proportionate, and usually a capability to build.</div>
+      </div>
+      <div class="cell q-blind" data-p="reckless" data-r="stale">
+        <div class="cell-name">The blind spot</div>
+        <div class="cell-gloss">Wrong thing questioned, real exposure ships. A &ldquo;no&rdquo; that still leaves you open.</div>
+      </div>
+      <div class="cell q-collision" data-p="responsible" data-r="stale">
+        <div class="cell-name">The collision</div>
+        <div class="cell-gloss">Sound proposal, expired threat model. Week 4 lives here.</div>
+      </div>
+    </div>
+  </div>
+  <div class="x-foot">
+    <div class="x-axis">
+      <div><b>Reckless</b><i>scope unnamed</i></div>
+      <div><b>Responsible</b><i>risks named first</i></div>
+    </div>
+    <div class="x-title">Innovation framing</div>
+  </div>
+</div>
+
+<div id="exercise">
+  <div class="item-head">
+    <span class="counter">Item <span id="idx">1</span> of 7</span>
+    <span class="tag" id="tag"></span>
+  </div>
+
+  <div class="card">
+    <div class="label">The proposal</div>
+    <p id="prop"></p>
+    <div class="divider"></div>
+    <div class="label">The response</div>
+    <p id="resp"></p>
+  </div>
+
+  <div class="choices">
+    <div>
+      <div class="choice-label">The proposal is</div>
+      <div class="btn-row">
+        <button class="pick" data-ax="p" data-v="reckless" aria-pressed="false">Reckless</button>
+        <button class="pick" data-ax="p" data-v="responsible" aria-pressed="false">Responsible</button>
+      </div>
+      <div class="pick-hint">Does it name its own risks before being asked?</div>
+    </div>
+    <div>
+      <div class="choice-label">The response is</div>
+      <div class="btn-row">
+        <button class="pick" data-ax="r" data-v="stale" aria-pressed="false">Stale</button>
+        <button class="pick" data-ax="r" data-v="current" aria-pressed="false">Current</button>
+      </div>
+      <div class="pick-hint">Can it name a mechanism, or only a category?</div>
+    </div>
+  </div>
+
+  <div class="reveal" id="reveal" style="display:none;" aria-live="polite">
+    <span class="contested" id="contested" style="display:none;">Reasonable people disagree</span>
+    <div class="verdict" id="verdict"></div>
+    <p id="why"></p>
+    <p><span class="tell-lead">The tell:</span> <span id="tell"></span></p>
+  </div>
+
+  <div class="actions">
+    <button class="primary" id="next" style="display:none;">Next item</button>
+    <span class="status" id="status">Make both calls to see where it lands.</span>
+  </div>
+</div>
+
+<div class="closing" id="closing">
+  <h2>That&rsquo;s the set</h2>
+  <p>While these scenarios were incredibly short just to illustrate a point, they all represent real situations that happen as organizations reconcile their innovation and risk appetites along with current mutual understanding of technology, real risks, and real mitigations.</p>
+  <div class="actions">
+    <button class="ghost" id="restart">Run it again</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  var items = [
+    { tag: "Data access", p: "responsible", r: "stale", q: "The collision", contested: false,
+      prop: "The claims team wants an agent that drafts adjuster notes. Read-only on the claims database, a human approves before anything saves, and the proposal lists its three most likely failure modes up front.",
+      resp: "“AI systems hallucinate. We can’t have fabricated content in a regulated claims file. Denied pending accuracy certification.”",
+      why: "The design already answers the objection. A human approves every save, so a wrong draft never reaches the file. The council is arguing with the technology, not with the thing in front of it.",
+      tell: "No mechanism. “AI hallucinates” names a category of tool, not a path by which this system causes harm." },
+
+    { tag: "Data access", p: "reckless", r: "current", q: "The save", contested: false,
+      prop: "“Replicate the customer table into the vendor’s cloud environment by Friday so the pilot can start. It’s only a pilot — we’ll clean it up afterward.”",
+      resp: "“Which fields? The production table or an extract? Where does it live when the pilot ends, and who deletes it? The 2019 pilot data is still sitting in a bucket nobody owns.”",
+      why: "Deadline pressure, unscoped access, and cleanup deferred to a future that never arrives. The response is the system working exactly as designed.",
+      tell: "Named mechanism and named precedent. This objection would survive being written down and read back a year later." },
+
+    { tag: "Data access", p: "responsible", r: "current", q: "Productive tension", contested: false,
+      prop: "Operations wants an agent reconciling supplier invoices against receiving records. Read access on two ERP modules, write confined to a single reconciliation table.",
+      resp: "“Yes on read. On write, it goes to a staging table that a human promotes, logged with who approved it, for one quarter. After a clean quarter we revisit direct write.”",
+      why: "A scoped proposal met with a scoped condition. Nothing here is a fight; it is two people pricing an unknown.",
+      tell: "The condition has a sunset. Current mitigators price conditions to the risk and let them expire. Stale ones make every condition permanent." },
+
+    { tag: "Data access", p: "responsible", r: "stale", q: "The collision", contested: true,
+      prop: "Marketing wants to join customer service transcripts to purchase history to find churn signals. De-identified extract, monthly refresh, twelve-month retention, inside the existing analytics environment, with re-identification named as the top risk and a stated anonymity threshold.",
+      resp: "“Transcripts fall under the call recording consent policy. That policy doesn’t contemplate secondary analytical use. Denied.”",
+      why: "Consent scope is a genuine legal mechanism, which is what makes this one hard. But the response treats policy silence as prohibition rather than as a gap somebody needs to close, and never asks whether de-identification changes the analysis.",
+      tell: "“The policy doesn’t contemplate it” describes the state of the paperwork, not a path to harm. Policy age is the thing this week keeps colliding with." },
+
+    { tag: "Business–IT relationship", p: "reckless", r: "stale", q: "The blind spot", contested: false,
+      prop: "“Finance already built a working prototype with a vendor tool on their own budget. It pulls from the warehouse on someone’s personal credentials. It works great — let’s scale it.”",
+      resp: "“If Finance owns it, it’s Finance’s risk. Not an IT system, not our review.”",
+      why: "A prototype running on one person’s credentials is one resignation away from either breaking or becoming an orphaned door into the warehouse. The response declines jurisdiction rather than declining the risk.",
+      tell: "An ownership category standing in for a mechanism. Nobody asked what happens to those credentials when that person changes roles." },
+
+    { tag: "Legacy constraint", p: "responsible", r: "current", q: "Productive tension", contested: true,
+      prop: "“The scheduling rewrite needs the agent writing directly to the production system. Building a staging mirror adds four months, and the savings case expires this fiscal year.”",
+      resp: "“Yes, if writes go through a scoped service account, deletes require confirmation, and we get a thirty-day audit log. I need two weeks to build the role.”",
+      why: "Read one way, the deadline is a real business constraint and the conditions are proportionate to the exposure. Read another way, “the savings case expires” is exactly what a rushed go-live sounds like from the inside. Defend whichever call you made.",
+      tell: "Look at the last sentence. “I need two weeks to build the role” is a capability statement, not a risk statement. The friction here is something the organization has not built yet." },
+
+    { tag: "Business–IT relationship", p: "reckless", r: "current", q: "The save", contested: false,
+      prop: "“The domain team wants speed, so the vendor’s consultants will build it and hand it over. They have done this six times in our industry.”",
+      resp: "“Who maintains it when they leave? Last time, the model drifted in month four and nobody in-house could diagnose it. I’m not blocking — I want a named internal owner inside the build from day one, not at handover.”",
+      why: "The hazard here is not a breach. It is capability that never gets built, which is the failure mode of buying an outcome instead of building capacity.",
+      tell: "The response converts a risk objection into a capability requirement. That move is the whole week in one sentence." }
+  ];
+
+  var i = 0, sel = { p: null, r: null };
+  var $ = function (id) { return document.getElementById(id); };
+  var cells = Array.prototype.slice.call(document.querySelectorAll(".cell"));
+  var picks = Array.prototype.slice.call(document.querySelectorAll("button.pick"));
+
+  function paintMatrix() {
+    cells.forEach(function (c) {
+      var pOk = !sel.p || c.getAttribute("data-p") === sel.p;
+      var rOk = !sel.r || c.getAttribute("data-r") === sel.r;
+      c.classList.toggle("dim", !(pOk && rOk));
+      c.classList.toggle("live", !!(sel.p && sel.r && pOk && rOk));
+    });
+  }
+
+  function loadItem() {
+    var it = items[i];
+    $("idx").textContent = i + 1;
+    $("tag").textContent = it.tag;
+    $("prop").textContent = it.prop;
+    $("resp").textContent = it.resp;
+    sel = { p: null, r: null };
+    picks.forEach(function (b) { b.setAttribute("aria-pressed", "false"); });
+    paintMatrix();
+    $("reveal").style.display = "none";
+    $("next").style.display = "none";
+    $("status").textContent = "Make both calls to see where it lands.";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  picks.forEach(function (b) {
+    b.addEventListener("click", function () {
+      var ax = b.getAttribute("data-ax");
+      picks.forEach(function (o) {
+        if (o.getAttribute("data-ax") === ax) o.setAttribute("aria-pressed", "false");
+      });
+      b.setAttribute("aria-pressed", "true");
+      sel[ax] = b.getAttribute("data-v");
+      paintMatrix();
+      if (sel.p && sel.r) showReveal();
+    });
+  });
+
+  function showReveal() {
+    var it = items[i];
+    var ok = (sel.p === it.p && sel.r === it.r);
+    $("contested").style.display = it.contested ? "inline-block" : "none";
+    $("verdict").innerHTML = ok
+      ? "You placed it in <strong>" + it.q + "</strong>."
+      : "Most readings put this in <strong>" + it.q + "</strong>.";
+    $("why").textContent = it.why;
+    $("tell").textContent = it.tell;
+    $("reveal").style.display = "block";
+    $("status").textContent = "";
+    $("next").style.display = "inline-block";
+    $("next").textContent = (i === items.length - 1) ? "Finish" : "Next item";
+  }
+
+  $("next").addEventListener("click", function () {
+    if (i === items.length - 1) {
+      $("exercise").style.display = "none";
+      $("closing").style.display = "block";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    i++;
+    loadItem();
+  });
+
+  $("restart").addEventListener("click", function () {
+    i = 0;
+    $("closing").style.display = "none";
+    $("exercise").style.display = "block";
+    loadItem();
+  });
+
+  loadItem();
+})();
+</script>
+
+</body>
+</html>
